@@ -1,0 +1,48 @@
+<PolicySet PolicySetId="ULPS:Resource-type:Database:Mysql:Usage-type:LocationBased" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides" >
+<Description>
+This policy Set determines the Usage Level of mysql resource request for Time-Based
+</Description>
+<Target/>
+<PolicySet PolicySetId="ULPS:Resource-type:Database:Mysql:Usage-type:LocationBased:Free" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides" >
+<Description>
+This the required policy Set.
+</Description>
+ <Target>
+  <Resources>
+ <Resource>
+
+		   <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+        <ResourceAttributeDesignator AttributeId="Resource_Usage_Level" DataType="http://www.w3.org/2001/XMLSchema#string" Issuer="admin@users.example.com"/>
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">UL_Attr_Free</AttributeValue>          
+	  </ResourceMatch>
+        </Resource>
+
+
+	
+		</Resources>
+</Target>
+<PolicySetIdReference>URPS:Resource-type:Database:Mysql:Usage-type:LocationBased:Free:Rights</PolicySetIdReference>
+</PolicySet>
+<PolicySet PolicySetId="ULPS:Resource-type:Database:Mysql:Usage-type:TimeBased:Free" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides" >
+<Description>
+This the required policy Set.
+</Description>
+ <Target>
+  <Resources>
+ <Resource>
+
+		   <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+        <ResourceAttributeDesignator AttributeId="Resource_Usage_Level" DataType="http://www.w3.org/2001/XMLSchema#string" Issuer="admin@users.example.com"/>
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">UL_Attr_Paid</AttributeValue>          
+	  </ResourceMatch>
+        </Resource>
+
+
+	
+		</Resources>
+
+</Target>
+<PolicySetIdReference>URPS:Resource-type:Database:Mysql:Usage-type:LocationBased:Paid:Rights</PolicySetIdReference>
+</PolicySet>
+
+</PolicySet>

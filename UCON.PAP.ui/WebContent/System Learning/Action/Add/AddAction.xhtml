@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Create Action</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+</h:head>
+<h:body style="background:#eeeeee">
+	<h:form id="form">
+		<fieldset>
+			<legend
+				style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Create
+				Action</legend>
+			<br />
+			<p:panelGrid columns="4" style="border-style: hidden !important;">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Action Name: " />
+				<p:inputText styleClass="policysetinputstyle" id="actionName"
+					value="#{addActionController.name}" required="true"
+					requiredMessage="Name cannot be null">
+					<f:validator validatorId="stringValidator" />
+				</p:inputText>
+				<p:commandButton id="helpActionName" icon="ui-icon-help"
+					type="button" />
+				<p:message for="actionName" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Action Description: " />
+				<p:inputTextarea rows="3" autoResize="false"
+					styleClass="policysetinputstyle" id="actionDescription"
+					value="#{addActionController.description}" required="true"
+					requiredMessage="Description cannot be null">
+				</p:inputTextarea>
+				<p:commandButton id="helpActionDescription" icon="ui-icon-help"
+					type="button" />
+				<p:message for="actionDescription" />
+			</p:panelGrid>
+			<pe:tooltip for="actionName" value="Enter the action name here."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="actionDescription"
+				value="Enter the action description here." showEffect="slideToggle"
+				hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+				myPosition="left center" atPosition="right center" />
+
+			<pe:tooltip for="helpActionName"
+				value="The action name which entity wants to perfrom on Resource.Like Read, Write, Delete etc"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpActionDescription"
+				value="Description regarding the action name which entity wants to perfrom on Resource."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+			<br /> <br />
+			<p:panelGrid styleClass="tableWidthStyleSystem" columns="2"
+				style="border-style: hidden !important;">
+				<p:dataTable id="actionAttributeDataTable" var="actionAttribute"
+					value="#{addActionController.actionAttributeList}"
+					rowKey="#{actionAttribute}"
+					selection="#{addActionController.selectedActionAttribute}"
+					selectionMode="single" paginator="true" rows="5"
+					paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+					paginatorPosition="bottom" paginatorAlwaysVisible="false"
+					style="height:150px; width: 450px">
+					<p:ajax event="rowSelect"
+						update=":form:actionAttributeValueDataTable"></p:ajax>
+					<p:column style="width:200px">
+						<f:facet name="header">
+							<div id="c1" style="float: left; margin: 0; width: 50">
+								<h:outputText value="Action Attributes" />
+							</div>
+							<div style="float: right; margin: 0; width: 50">
+								<p:commandButton icon="ui-icon ui-icon-plusthick"
+									id="addActionAttribute"
+									action="#{addActionController.addActionAttribute}"
+									immediate="true">
+									<p:ajax event="dialogReturn"
+										update=":form:actionAttributeDataTable :form:actionAttributeValueDataTable"></p:ajax>
+								</p:commandButton>
+							</div>
+						</f:facet>
+						<h:outputText value="#{actionAttribute.actAttrId}" />
+					</p:column>
+
+				</p:dataTable>
+				
+
+				<p:dataTable id="actionAttributeValueDataTable"
+					var="actionAttributeValue" rowKey="actionAttributeValue"
+					value="#{addActionController.actionAttributeValueList}"
+					paginator="true" rows="5"
+					paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+					paginatorPosition="bottom" paginatorAlwaysVisible="false"
+					style="height:150px; width: 450px">
+					<p:column style="width:200px">
+						<f:facet name="header">
+							<div id="c1" style="float: left; margin: 0; width: 50">
+								<h:outputText value="Action Attribute Values" />
+							</div>
+							<div style="float: right; margin: 0; width: 50">
+								<p:commandButton icon="ui-icon ui-icon-plusthick"
+									id="addActionAttributeValue"
+									actionListener="#{addActionController.addActionAttributeValue}"
+									immediate="true">
+									<p:ajax event="dialogReturn"
+										update=":form:actionAttributeValueDataTable" />
+								</p:commandButton>
+							</div>
+						</f:facet>
+						<h:outputText value="#{actionAttributeValue.actAttrValue}" />
+					</p:column>
+
+				</p:dataTable>
+				
+
+			</p:panelGrid>
+			<pe:tooltip for="actionAttributeDataTable"
+					value="These are the available action attributes."
+					showEffect="slideToggle" hideEvent="click mouseleave"
+					hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+					atPosition="top center" />
+			<pe:tooltip for="actionAttributeValueDataTable"
+					value="These are the available action attribute values."
+					showEffect="slideToggle" hideEvent="click mouseleave"
+					hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+					atPosition="top center" />
+			<br /> <br /> <br />
+
+			<p:commandButton styleClass="buttonstyle" id="cancelAction"
+				value="Cancel " action="#{addActionController.cancelAction}"
+				immediate="true" update="form" />
+
+
+
+			<p:commandButton styleClass="buttonstyle" id="saveAction"
+				value="Save" action="#{addActionController.saveAction}"
+				update="form" />
+
+
+
+			<p:defaultCommand target="saveAction"></p:defaultCommand>
+		</fieldset>
+	</h:form>
+
+
+	<p:dialog modal="true" id="dialog1" header="Add Action Attribute"
+		widgetVar="ex">
+
+		<p:ajax event="close"
+			update=":form:actionAttributeDataTable :form:actionAttributeValueDataTable"></p:ajax>
+		<h:form id="form1" style="margin-left:25px">
+			<p:panelGrid id="addNewActionAttributePanel" columns="4">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Attribute Name " />
+				<p:inputText styleClass="dialoginputstyle" id="actionAttributeName"
+					value="#{addActionController.attributeName}" required="true"
+					requiredMessage="Name cannot be null">
+					<f:validator validatorId="stringValidator" />
+				</p:inputText>
+				<p:commandButton id="helpActionAttributeName" icon="ui-icon-help"
+					type="button" />
+				<p:message for="actionAttributeName" />
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					for="dataType" value="Data Type: " />
+				<p:selectOneListbox style="height:60px" id="dataType"
+					value="#{addActionController.selectedDataType}" required="true"
+					requiredMessage="DataType cannot be null">
+					<f:ajax event="change" execute="@this" />
+					<f:selectItems value="#{addActionController.dataTypeList}"
+						var="dType" itemLabel="#{dType}" itemValue="#{dType}" />
+				</p:selectOneListbox>
+				<p:commandButton id="helpDataType" icon="ui-icon-help" type="button" />
+				<p:message for="dataType" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Attribute Value " />
+				<p:inputText styleClass="dialoginputstyle"
+					id="actionAttributeValueOne"
+					value="#{addActionController.attributeValueDefault}"
+					required="true" requiredMessage="Attribute Value cannot be null">
+					<f:attribute name="item"
+						value="#{addActionController.selectedDataType}" />
+					<f:validator validatorId="dataTypeValidator" />
+				</p:inputText>
+				<p:commandButton id="helpActionAttributeValueOne"
+					icon="ui-icon-help" type="button" />
+				<p:message for="actionAttributeValueOne" />
+			</p:panelGrid>
+			<pe:tooltip for="helpActionAttributeName"
+				value="Name of Action attribute. Like Faculty Actions is an Action that can have Read Action, 
+				Write Action etc as attributes"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpDataType"
+				value="Data Type of attribute. Like String, Integer etc"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpActionAttributeValueOne"
+				value="Value of Action attribute. Like Faculty Actions is an Action that can have Read Action
+				with value as Read"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+			<br />
+			<p:commandButton styleClass="buttonstyle" id="cancelActionAttribute"
+				value="Cancel "
+				action="#{addActionController.cancelAddActionAttribute}"
+				immediate="true" update=" form1">
+				<p:resetInput target=" form1" />
+			</p:commandButton>
+			
+			&nbsp;
+			
+		<p:commandButton styleClass="buttonstyle" id="saveActionAttribute"
+				value="Save " action="#{addActionController.saveAddActionAttribute}"
+				update=" form1" />
+
+
+			<p:defaultCommand target="saveActionAttribute"></p:defaultCommand>
+		</h:form>
+
+	</p:dialog>
+
+
+
+	<p:dialog modal="true" id="dialog2" header="Add Action Attribute Value"
+		widgetVar="ex1">
+
+		<p:ajax event="close"
+			update=":form:actionAttributeDataTable :form:actionAttributeValueDataTable"></p:ajax>
+
+
+		<h:form id="form2" style="margin-left:25px">
+			<h:panelGrid id="addActionAttributeValuePanel" columns="4"
+				style="border-style: hidden !important;">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Attribute Value " />
+				<p:inputText id="actionAttributeValue"
+					value="#{addActionController.attributeValue}" required="true"
+					requiredMessage="Attribute Value cannot be null">
+					<f:attribute name="item"
+						value="#{addActionController.selectedActionAttribute.dataType}" />
+					<f:validator validatorId="dataTypeValidator" />
+				</p:inputText>
+				<p:commandButton id="helpActionAttributeValue" icon="ui-icon-help"
+					type="button" />
+				<p:message for="actionAttributeValue" />
+			</h:panelGrid>
+			<pe:tooltip for="helpActionAttributeValue"
+				value="Value of Action attribute. Like Faculty Actions is an Action that can have Read Action
+				with value as Read"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+			<br />
+			<p:commandButton styleClass="buttonstyle"
+				id="cancelActionAttributeValue" value="Cancel "
+				action="#{addActionController.cancelAddActionAttributeValue}"
+				immediate="true" update=" form2">
+				<p:resetInput target=" form2" />
+			</p:commandButton>
+			
+			&nbsp;
+			
+		<p:commandButton styleClass="buttonstyle"
+				id="saveActionAttributeValue" value="Save "
+				action="#{addActionController.saveAddActionAttributeValue}"
+				update=" form2" />
+
+
+			<p:defaultCommand target="saveActionAttributeValue"></p:defaultCommand>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->
+

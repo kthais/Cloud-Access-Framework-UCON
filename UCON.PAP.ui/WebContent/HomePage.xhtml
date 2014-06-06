@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->
+
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>HomePage</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/images/" />
+	</f:facet>
+</h:head>
+
+<h:body>
+
+
+	<h:form id="form">
+		<p:layout fullPage="true">
+
+			<p:layoutUnit styleClass="imager" position="north" size="90">
+
+
+				<p:menubar styleClass="centeredMenuBar">
+
+					<p:submenu label="System Learning">
+						<p:menuitem value="Subject" action="#{menuController.subject}"
+							update=":form:centerPanel" immediate="true" />
+						<p:menuitem value="Resource" action="#{menuController.resource}"
+							update=":form:centerPanel" immediate="true" />
+						<p:menuitem value="Action" action="#{menuController.action}"
+							update=":form:centerPanel" immediate="true" />
+						<p:menuitem value="Environment"
+							action="#{menuController.environment}" update=":form:centerPanel"
+							immediate="true" />
+					</p:submenu>
+					<p:submenu label="Policy Creation">
+						<p:menuitem value="Target" action="#{menuController.target}"
+							update=":form:centerPanel" immediate="true" />
+						<p:menuitem value="Condition" action="#{menuController.condition}"
+						update=":form:centerPanel" immediate="true" />
+						<p:menuitem value="Rule" action="#{menuController.rule}"
+							update=":form:centerPanel" immediate="true" />
+						<p:menuitem value="Policy" action="#{menuController.policy}"
+							update=":form:centerPanel" immediate="true" />
+						<p:menuitem value="Policy Set"
+							action="#{menuController.policySet}" update=":form:centerPanel"
+							immediate="true" />
+					</p:submenu>
+					<p:submenu label="XACML Generation">
+						<p:menuitem value="Policy Generation"
+							action="#{menuController.xacmlPolicy}" update=":form:centerPanel"
+							immediate="true" />
+						<p:menuitem value="Policy Set Generation"
+							action="#{menuController.xacmlPolicySet}"
+							update=":form:centerPanel" immediate="true" />
+					</p:submenu>
+				</p:menubar>
+
+			</p:layoutUnit>
+
+
+			<p:layoutUnit position="center">
+
+				<p:panel id="centerPanel">
+					<ui:include src="#{menuController.page}.xhtml" />
+				</p:panel>
+			</p:layoutUnit>
+		</p:layout>
+	</h:form>
+
+
+	<p:ajaxStatus style="position:fixed;right:20px;bottom:20px">
+		<f:facet name="start">
+			<p:graphicImage value="resources/images/loading.gif" />
+		</f:facet>
+
+		<f:facet name="success">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+
+</h:body>
+</html>

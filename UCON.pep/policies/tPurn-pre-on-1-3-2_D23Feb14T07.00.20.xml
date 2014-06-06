@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyId="tPurn:pre:on:1:3:2" Version="2.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>TPol</Description>
+    <Target>
+        <Actions>
+            <Action>
+                <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-is-in">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">addf</AttributeValue>
+                    <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:aas" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true"/>
+                </ActionMatch>
+            </Action>
+        </Actions>
+        <Environments>
+            <Environment>
+                <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-bag">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">asas</AttributeValue>
+                    <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:adfffgg" DataType="http://www.w3.org/2001/XMLSchema#anyURI" MustBePresent="false"/>
+                </EnvironmentMatch>
+            </Environment>
+        </Environments>
+    </Target>
+    <Rule RuleId="tPurn:pre:on:1:3:2" Effect="Permit"/>
+    <Obligations>
+        <Obligation ObligationId="urn:xacml:ucon:on" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="request_interval">3332</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:postUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="aadd"></AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:onGoingUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="update_subjAttrId2">ss</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:preUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="">qwe</AttributeAssignment>
+        </Obligation>
+    </Obligations>
+</Policy>

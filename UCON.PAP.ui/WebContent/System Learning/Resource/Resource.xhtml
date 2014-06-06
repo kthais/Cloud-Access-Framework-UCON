@@ -1,0 +1,257 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:head>
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=ISO-8859-1" />
+		<title>Resource</title>
+		<f:facet name="last">
+			<link rel="stylesheet" type="text/css"
+				href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+		</f:facet>
+	</h:head>
+
+	<p:growl id="growlResource" showDetail="true" autoUpdate="true"
+		globalOnly="true" />
+	<fieldset>
+		<legend
+			style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Resource</legend>
+
+		<br />
+		<p:dataTable id="resourceDataTable" var="resourceDataTable"
+			value="#{resourceController.resourceList}"
+			rowKey="#{resourceDataTable.pkResource}"
+			selection="#{resourceController.selectedResource}"
+			selectionMode="single" paginator="true" rows="5"
+			paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+			paginatorPosition="bottom" paginatorAlwaysVisible="false"
+			style="height:150px">
+			<p:ajax event="rowSelect"
+				listener="#{resourceController.onResourceSelect}"
+				update="   :form:resourceAttributeDataTable :form:resourceAttributeValueDataTable  "></p:ajax>
+			<p:ajax event="rowUnselect"
+				listener="#{resourceController.onResourceUnSelect}"
+				update="   :form:resourceAttributeDataTable :form:resourceAttributeValueDataTable  "></p:ajax>
+
+			<p:ajax event="contextMenu" />
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="Resource Name" />
+				</f:facet>
+				<h:outputText value="#{resourceDataTable.resourceName}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="Resource Description" />
+				</f:facet>
+				<h:outputText value="#{resourceDataTable.description}" />
+			</p:column>
+		</p:dataTable>
+		<pe:tooltip for="resourceDataTable"
+			value="These are the available resources." showEffect="slideToggle"
+			hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+			myPosition="bottom center" atPosition="top center" />
+
+		<br /> <br />
+		<h:panelGrid styleClass="tableWidthStyle" columns="2"
+			style="border-style: hidden !important;">
+			<p:dataTable id="resourceAttributeDataTable"
+				var="resourceAttributeDataTable"
+				value="#{resourceController.resourceAttributeList}"
+				rowKey="#{resourceAttributeDataTable.pkResAttr}"
+				selection="#{resourceController.selectedResourceAttributes}"
+				selectionMode="single" paginator="true" rows="5"
+				paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+				paginatorPosition="bottom" paginatorAlwaysVisible="false"
+				style="height:150px; width:575px">
+				<p:ajax event="rowSelect"
+					update=":form:resourceAttributeValueDataTable  "></p:ajax>
+				<p:ajax event="rowUnselect"
+					listener="#{resourceController.onResourceAttributeUnSelect}"
+					update="   :form:resourceAttributeValueDataTable  "></p:ajax>
+
+				<p:ajax event="contextMenu" />
+
+				<p:column style="width:200px">
+					<f:facet name="header">
+						<div style="float: left; margin: 0; width: 50">
+							<h:outputText value="Resource Attributes" />
+						</div>
+						<div style="float: right; margin: 0; width: 50">
+							<p:commandButton id="addResourceattrButton"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{resourceController.addResourceAttribute}"
+								disabled="#{resourceController.attrbtn}"
+								update=":form:resourceAttributeDataTable :form:resourceAttributeValueDataTable ">
+								<p:ajax event="dialogReturn"
+									listener="#{resourceController.showAddMessage}"
+									update=" :form:resourceAttributeDataTable :form:resourceAttributeValueDataTable  :form:growlResource" />
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText value="#{resourceAttributeDataTable.resAttrId}" />
+				</p:column>
+			</p:dataTable>
+			
+
+			<p:dataTable id="resourceAttributeValueDataTable"
+				var="resourceAttributeValueDataTable"
+				value="#{resourceController.resourceAttributeValueList}"
+				rowKey="#{resourceAttributeValueDataTable.pkResAttrVal}"
+				selection="#{resourceController.selectedResourceAttributeValue}"
+				selectionMode="single" paginator="true" rows="5"
+				paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+				paginatorPosition="bottom" paginatorAlwaysVisible="false"
+				style="height:150px; width:575px">
+				<p:ajax event="contextMenu" />
+				<p:column style="width:200px">
+					<f:facet name="header">
+						<div id="c1" style="float: left; margin: 0; width: 50">
+							<h:outputText value="Resource Attributes Value" />
+						</div>
+						<div id="c2" style="float: right; margin: 0; width: 50">
+							<p:commandButton id="addResourceattrButton"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{resourceController.addResourceAttributeValue}"
+								disabled="#{resourceController.attrValuebtn}"
+								update=":form:resourceAttributeValueDataTable ">
+								<p:ajax event="dialogReturn"
+									listener="#{resourceController.showAddMessage}"
+									update=" :form:resourceAttributeValueDataTable  :form:growlResource" />
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText
+						value="#{resourceAttributeValueDataTable.resAttrValue}" />
+				</p:column>
+			</p:dataTable>
+			
+
+		</h:panelGrid>
+		<pe:tooltip for="resourceAttributeDataTable"
+				value="These are the available resource attributes."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+				
+		<pe:tooltip for="resourceAttributeValueDataTable"
+				value="These are the available resource attribute values."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+				
+		<br /> <br /> <br />
+		<p:commandButton style="float:right;" id="addResourceButton"
+			value="Add Resource" immediate="true"
+			action="#{resourceController.addResource}"
+			update=":form:growlResource">
+			<p:ajax event="dialogReturn"
+				update=" :form:resourceDataTable :form:resourceAttributeDataTable :form:resourceAttributeValueDataTable :form:growlResource "
+				listener="#{addResourceController.showAddMessage}" />
+		</p:commandButton>
+	</fieldset>
+
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+		<p:commandButton value="Yes" type="button"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+
+	<p:contextMenu for="resourceDataTable">
+		<p:menuitem id="updateResource" value="Update"
+			onclick="triggerHiddenEvent('updateResource'); return false;" />
+		<p:menuitem id="deleteResource" value="Delete"
+			onclick="triggerHiddenEvent('deleteResource'); return false;" />
+	</p:contextMenu>
+	<p:contextMenu for="resourceAttributeDataTable">
+		<p:menuitem id="updateResourceAttribute" value="Update"
+			onclick="triggerHiddenEvent('updateResourceAttribute'); return false;" />
+		<p:menuitem id="deleteResourceAttribute" value="Delete"
+			onclick="triggerHiddenEvent('deleteResourceAttribute'); return false;" />
+
+	</p:contextMenu>
+	<p:contextMenu for="resourceAttributeValueDataTable">
+		<p:menuitem id="updateResourceAttributeValue" value="Update"
+			onclick="triggerHiddenEvent('updateResourceAttributeValue'); return false;" />
+		<p:menuitem id="deleteResourceAttributeValue" value="Delete"
+			onclick="triggerHiddenEvent('deleteResourceAttributeValue'); return false;" />
+
+	</p:contextMenu>
+
+	<p:commandButton id="deleteResourceCommand" styleClass="button"
+		action="#{resourceController.deleteResource}" style="display:none"
+		update=":form:resourceDataTable :form:resourceAttributeDataTable :form:resourceAttributeValueDataTable :form:growlResource">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+	<p:commandButton id="deleteResourceAttributeCommand"
+		styleClass="button"
+		action="#{resourceController.deleteResourceAttribute}"
+		style="display:none"
+		update=":form:resourceAttributeDataTable :form:resourceAttributeValueDataTable :form:growlResource">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+
+	<p:commandButton id="deleteResourceAttributeValueCommand"
+		styleClass="button"
+		action="#{resourceController.deleteResourceAttributeValue}"
+		style="display:none"
+		update=":form:resourceAttributeValueDataTable :form:growlResource">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+
+
+	<p:commandButton id="updateResourceCommand" styleClass="button"
+		action="#{resourceController.updateResource}" style="display:none">
+		<p:ajax event="dialogReturn"
+			listener="#{resourceController.showUpdateMessage}"
+			update=" :form:resourceDataTable :form:growlResource " />
+	</p:commandButton>
+	<p:commandButton id="updateResourceAttributeCommand"
+		styleClass="button"
+		action="#{resourceController.updateResourceAttribute}"
+		style="display:none">
+		<p:ajax event="dialogReturn"
+			listener="#{resourceController.showUpdateMessage}"
+			update=" :form:resourceAttributeDataTable  :form:growlResource" />
+	</p:commandButton>
+	<p:commandButton id="updateResourceAttributeValueCommand"
+		styleClass="button"
+		action="#{resourceController.updateResourceAttributeValue}"
+		style="display:none">
+		<p:ajax event="dialogReturn"
+			listener="#{resourceController.showUpdateMessage}"
+			update=" :form:resourceAttributeValueDataTable :form:growlResource " />
+	</p:commandButton>
+
+	<h:outputScript>
+function triggerHiddenEvent( id) {
+    document.getElementById("form:"+id+"Command").click();
+  }
+</h:outputScript>
+</ui:composition>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

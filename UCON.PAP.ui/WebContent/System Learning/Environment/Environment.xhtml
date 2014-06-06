@@ -1,0 +1,253 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:head>
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=ISO-8859-1" />
+		<title>Environment</title>
+		<f:facet name="last">
+			<link rel="stylesheet" type="text/css"
+				href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+		</f:facet>
+	</h:head>
+
+	<p:growl id="growlEnvironment" showDetail="true" autoUpdate="true"
+		globalOnly="true" />
+	<fieldset>
+		<legend
+			style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Environment</legend>
+		<p:dataTable id="environmentDataTable" var="environmentDataTable"
+			value="#{environmentController.environmentList}"
+			rowKey="#{environmentDataTable.pkEnvironment}"
+			selection="#{environmentController.selectedEnvironment}"
+			selectionMode="single" paginator="true" rows="5"
+			paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+			paginatorPosition="bottom" paginatorAlwaysVisible="false"
+			style="height:150px">
+			<p:ajax event="rowSelect"
+				listener="#{environmentController.onEnvironmentSelect}"
+				update="   :form:environmentAttributeDataTable :form:environmentAttributeValueDataTable  "></p:ajax>
+			<p:ajax event="rowUnselect"
+				listener="#{environmentController.onEnvironmentUnSelect}"
+				update=" :form:environmentAttributeDataTable   :form:environmentAttributeValueDataTable  "></p:ajax>
+			<p:ajax event="contextMenu" />
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="Environment Name" />
+				</f:facet>
+				<h:outputText value="#{environmentDataTable.environmentName}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="Environment Description" />
+				</f:facet>
+				<h:outputText value="#{environmentDataTable.description}" />
+			</p:column>
+		</p:dataTable>
+		
+		<br /> <br />
+		<h:panelGrid styleClass="tableWidthStyle" columns="2"
+			style="border-style: hidden !important;">
+			<p:dataTable id="environmentAttributeDataTable"
+				var="environmentAttributeDataTable"
+				value="#{environmentController.environmentAttributeList}"
+				rowKey="#{environmentAttributeDataTable.pkEnvAttr}"
+				selection="#{environmentController.selectedEnvironmentAttributes}"
+				selectionMode="single" paginator="true" rows="5"
+				paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+				paginatorPosition="bottom" paginatorAlwaysVisible="false"
+				style="height:150px; width:575px">
+				<p:ajax event="rowSelect"
+					update=":form:environmentAttributeValueDataTable  "></p:ajax>
+				<p:ajax event="rowUnselect"
+					listener="#{environmentController.onEnvironmentAttributeUnSelect}"
+					update="    :form:environmentAttributeValueDataTable  "></p:ajax>
+				<p:ajax event="contextMenu" />
+
+				<p:column >
+					<f:facet name="header">
+						<div style="float: left; margin: 0">
+							<h:outputText value="Environment Attributes" />
+						</div>
+						<div style="float: right; margin: 0">
+							<p:commandButton id="addEnvironmentattrButton"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{environmentController.addEnvironmentAttribute}"
+								disabled="#{environmentController.attrbtn}"
+								update=":form:environmentAttributeDataTable :form:environmentAttributeValueDataTable ">
+								<p:ajax event="dialogReturn"
+									listener="#{environmentController.showAddMessage}"
+									update=" :form:environmentAttributeDataTable :form:environmentAttributeValueDataTable  :form:growlEnvironment" />
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText value="#{environmentAttributeDataTable.envAttrId}" />
+				</p:column>
+			</p:dataTable>
+			
+
+			<p:dataTable id="environmentAttributeValueDataTable"
+				var="environmentAttributeValueDataTable"
+				value="#{environmentController.environmentAttributeValueList}"
+				rowKey="#{environmentAttributeValueDataTable.pkEnvAttrVal}"
+				selection="#{environmentController.selectedEnvironmentAttributeValue}"
+				selectionMode="single" paginator="true" rows="5"
+				paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+				paginatorPosition="bottom" paginatorAlwaysVisible="false"
+				style="height:150px; width:575px">
+
+
+				<p:ajax event="contextMenu" />
+				<p:column >
+					<f:facet name="header">
+						<div style="float: left; margin: 0">
+							<h:outputText value="Environment Attribute Value" />
+						</div>
+						<div style="float: right; margin: 0">
+							<p:commandButton id="addEnvironmentattrvalueButton"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{environmentController.addEnvironmentAttributeValue}"
+								disabled="#{environmentController.attrValuebtn}"
+								update=":form:environmentAttributeValueDataTable ">
+								<p:ajax event="dialogReturn"
+									listener="#{environmentController.showAddMessage}"
+									update=" :form:environmentAttributeValueDataTable  :form:growlEnvironment" />
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText
+						value="#{environmentAttributeValueDataTable.envAttrValue}" />
+				</p:column>
+			</p:dataTable>
+			
+		</h:panelGrid>
+		<pe:tooltip for="environmentDataTable"
+			value="These are the available environments."
+			showEffect="slideToggle" hideEvent="click mouseleave"
+			hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+			atPosition="top center" />
+		<pe:tooltip for="environmentAttributeValueDataTable"
+				value="These are the available environment attribute values."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+		<br />
+		<br />
+		<br />
+		<p:commandButton style="float:right;" id="addEnvironmentButton"
+			value="Add Environment" immediate="true"
+			action="#{environmentController.addEnvironment}"
+			update=":form:growlEnvironment">
+			<p:ajax event="dialogReturn"
+				update=" :form:environmentDataTable :form:environmentAttributeDataTable :form:environmentAttributeValueDataTable :form:growlEnvironment "
+				listener="#{addEnvironmentController.showAddMessage}" />
+		</p:commandButton>
+	</fieldset>
+
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+		<p:commandButton value="Yes" type="button"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+
+	<p:contextMenu for="environmentDataTable">
+		<p:menuitem id="updateEnvironment" value="Update"
+			onclick="triggerHiddenEvent('updateEnvironment'); return false;" />
+		<p:menuitem id="deleteEnvironment" value="Delete"
+			onclick="triggerHiddenEvent('deleteEnvironment'); return false;" />
+	</p:contextMenu>
+	<p:contextMenu for="environmentAttributeDataTable">
+		<p:menuitem id="updateEnvironmentAttribute" value="Update"
+			onclick="triggerHiddenEvent('updateEnvironmentAttribute'); return false;" />
+		<p:menuitem id="deleteEnvironmentAttribute" value="Delete"
+			onclick="triggerHiddenEvent('deleteEnvironmentAttribute'); return false;" />
+
+	</p:contextMenu>
+	<p:contextMenu for="environmentAttributeValueDataTable">
+		<p:menuitem id="updateEnvironmentAttributeValue" value="Update"
+			onclick="triggerHiddenEvent('updateEnvironmentAttributeValue'); return false;"
+			update=":form:growlEnvironment " />
+		<p:menuitem id="deleteEnvironmentAttributeValue" value="Delete"
+			onclick="triggerHiddenEvent('deleteEnvironmentAttributeValue'); return false;" />
+
+	</p:contextMenu>
+
+	<p:commandButton id="deleteEnvironmentCommand" styleClass="button"
+		action="#{environmentController.deleteEnvironment}"
+		style="display:none"
+		update=":form:environmentDataTable :form:environmentAttributeDataTable :form:environmentAttributeValueDataTable :form:growlEnvironment">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+	<p:commandButton id="deleteEnvironmentAttributeCommand"
+		styleClass="button"
+		action="#{environmentController.deleteEnvironmentAttribute}"
+		style="display:none"
+		update=":form:environmentAttributeDataTable :form:environmentAttributeValueDataTable :form:growlEnvironment">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+
+	<p:commandButton id="deleteEnvironmentAttributeValueCommand"
+		styleClass="button"
+		action="#{environmentController.deleteEnvironmentAttributeValue}"
+		style="display:none"
+		update=":form:environmentAttributeValueDataTable :form:growlEnvironment">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+
+	<p:commandButton id="updateEnvironmentCommand" styleClass="button"
+		action="#{environmentController.updateEnvironment}"
+		style="display:none">
+		<p:ajax event="dialogReturn"
+			listener="#{environmentController.showUpdateMessage}"
+			update=" :form:environmentDataTable :form:growlEnvironment " />
+	</p:commandButton>
+	<p:commandButton id="updateEnvironmentAttributeCommand"
+		styleClass="button"
+		action="#{environmentController.updateEnvironmentAttribute}"
+		style="display:none">
+		<p:ajax event="dialogReturn"
+			listener="#{environmentController.showUpdateMessage}"
+			update=" :form:environmentAttributeDataTable  :form:growlEnvironment" />
+	</p:commandButton>
+	<p:commandButton id="updateEnvironmentAttributeValueCommand"
+		styleClass="button"
+		action="#{environmentController.updateEnvironmentAttributeValue}"
+		style="display:none">
+		<p:ajax event="dialogReturn"
+			listener="#{environmentController.showUpdateMessage}"
+			update=" :form:environmentAttributeValueDataTable :form:growlEnvironment " />
+	</p:commandButton>
+
+	<h:outputScript>
+function triggerHiddenEvent( id) {
+    document.getElementById("form:"+id+"Command").click();
+  }
+</h:outputScript>
+</ui:composition>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>XACML Generation</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+</h:head>
+<h:body>
+
+	<h:form>
+		<p:layout fullPage="true">
+			<p:layoutUnit id="top" position="north" size="50">
+				<p:breadCrumb>
+					<p:menuitem value="" action="#{optionController.option}" />
+					<p:menuitem value="System Learning"
+						action="#{optionController.option1}" />
+					<p:menuitem value="Policy Creation"
+						action="#{optionController.option2}" />
+					<p:menuitem value="XACML Generation"
+						action="#{optionController.option3}" />
+				</p:breadCrumb>
+			</p:layoutUnit>
+			<p:layoutUnit id="left" position="west">
+				<p:commandButton value="Policy"
+					action="#{xacmlGenerationController.policy}" />
+				<br></br>
+				<p:commandButton value="Policy Set"
+					action="#{xacmlGenerationController.policySet}" />
+			</p:layoutUnit>
+			<p:layoutUnit id="center" position="center">
+				<p:fieldset legend="XACML Generation">
+					<h:panelGrid style="border-style: hidden !important;">
+						<h:outputText
+							value="This section allows you to generate corresponding XACML based policies and policy sets." />
+					</h:panelGrid>
+				</p:fieldset>
+			</p:layoutUnit>
+		</p:layout>
+	</h:form>
+
+</h:body>
+</html>

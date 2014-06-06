@@ -1,0 +1,942 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<h:head>
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=ISO-8859-1" />
+		<title>Create Policy</title>
+		<f:facet name="last">
+			<link rel="stylesheet" type="text/css"
+				href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+		</f:facet>
+	</h:head>
+	<h:body style="background:#eeeeee">
+	<h:form style="margin-left:25px" id="form">
+
+	<p:wizard flowListener="#{uconPolicyWizardController.onFlowProcess}">
+	<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
+		<p:tab id="IdAndPolicy" title="UCON Policy">
+			<fieldset>
+				<legend
+					style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Create
+					Policy</legend>
+				<br />
+				<div style="float:left; width:40%;">
+				<h:panelGrid id="pgrid" columns="4"
+					style="border-style: hidden !important;">
+					<h:outputLabel
+						style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px "
+						for="name" value="Name: " />
+					<p:inputText styleClass="ruleinputstyle" id="name"
+						value="#{uconPolicyWizardController.policyName}" required="true"
+						requiredMessage="Name cannot be null" label="Name">
+						<f:validator validatorId="stringValidator" />
+						
+					</p:inputText>
+					<p:commandButton id="helpPolicyName" icon="ui-icon-help"
+						type="button" />
+					<p:message for="name"  />
+					<h:outputLabel
+						style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+						for="description" value="Description: " />
+					<p:inputTextarea rows="3" autoResize="false"
+						styleClass="ruleinputstyle" id="description"
+						value="#{uconPolicyWizardController.policyDescription}"
+						required="true" requiredMessage="Description cannot be null"
+						label="Description">
+						<p:ajax event="mouseout" render="infoIcon" />
+						<f:validator validatorId="stringValidator" />
+					</p:inputTextarea>
+					<p:commandButton id="helpPolicyDescription" icon="ui-icon-help"
+						type="button" />
+					<p:message for="description" />
+
+					<h:outputLabel
+						style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+						value="Rule Combining Algorithm " />
+
+					<p:selectOneMenu styleClass="policysetinputstyle" id="onemanu"
+						value="#{uconPolicyWizardController.appliedAlgo}" required="true"
+						requiredMessage="Select Rule Combining Algorithm">
+						<f:ajax event="change" execute="@this" />
+						<f:selectItem itemLabel="Select Rule Combining Algorithm "
+							itemValue="" />
+						<f:selectItems value="#{uconPolicyWizardController.algorithmList}"
+							var="cat" itemLabel="#{cat}" itemValue="#{cat}" />
+					</p:selectOneMenu>
+					<p:commandButton id="helpRuleCombinigAlgo" icon="ui-icon-help"
+						type="button" />
+					<p:message for="onemanu" />
+					
+					<h:outputText id="ruleEffect" value="Rule Effect: "></h:outputText>
+					<p:selectOneMenu styleClass="policysetinputstyle" id="ruleEffectSelectBox"
+						value="#{uconPolicyWizardController.appliedEffect}" required="true"
+						requiredMessage="Select Rule Effect">
+						<f:ajax event="change" execute="@this" />
+						<f:selectItem itemLabel="Select Rule Effect "
+							itemValue="" />
+						<f:selectItems value="#{uconPolicyWizardController.ruleEffects}"
+							var="cat" itemLabel="#{cat}" itemValue="#{cat}" />
+					</p:selectOneMenu>
+					<p:commandButton id="helpRuleEffect" icon="ui-icon-help"
+						type="button" />
+					<p:message for="ruleEffect" />
+				</h:panelGrid>
+				
+				<pe:tooltip for="helpPolicyName"
+					value="Enter the policy id here." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="left center" atPosition="right center" />
+				
+				<pe:tooltip for="name"
+					value="Enter the policy id here." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="left center" atPosition="right center" />
+				
+				<pe:tooltip for="description"
+					value="Enter the policy description here." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="left center" atPosition="right center" />
+					
+				<pe:tooltip for="helpPolicyDescription"
+					value="Enter the policy description here." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="left center" atPosition="right center" />
+					
+				<pe:tooltip for="onemanu"
+					value="Select rule combining algorithm." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="left center" atPosition="right center" />
+					
+				<pe:tooltip for="helpRuleCombinigAlgo"
+					value="Select rule combining algorithm." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="left center" atPosition="right center" />
+					
+				<br />
+				
+				
+				
+				
+				<fieldset>	
+				<legend
+					style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 16px; font-weight: bold; background: #eeeeee;">
+					<h:outputText id="LegendABC" value="#{uconPolicyWizardController.propertyABC}"></h:outputText>
+					</legend>
+					
+				<p:selectBooleanCheckbox value="#{uconPolicyWizardController.pre}">
+					<p:ajax />
+				</p:selectBooleanCheckbox>
+				<h:outputText id="preABC" value="#{uconPolicyWizardController.preABC}"></h:outputText>
+				<br />
+				<p:selectBooleanCheckbox value="#{uconPolicyWizardController.on}">
+					<p:ajax listener="#{uconPolicyWizardController.changeOnGoingState}" />
+				</p:selectBooleanCheckbox>
+				<h:outputText id="onGoingABC" value="#{uconPolicyWizardController.onGoingABC}"></h:outputText>
+				<br />
+				</fieldset>
+				</div>
+				<div style="float:left; width:60%;">
+				<h:selectOneRadio value="#{uconPolicyWizardController.abcProperties}">
+					<f:ajax event="change" render="tables preABC onGoingABC LegendABC" listener="#{uconPolicyWizardController.print}" /> 
+				   	<f:selectItem itemValue="auth" itemLabel="Authorization" />
+				   	<f:selectItem itemValue="obl" itemLabel="Obligation" />
+				   	<f:selectItem itemValue="cond" itemLabel="Condition" />
+				</h:selectOneRadio>
+				<h:panelGroup id="tables">
+					<p:dataTable id="targetDataTable" var="tar" rendered="#{uconPolicyWizardController.abcPropertiesAuth}"
+						value="#{uconPolicyWizardController.targetWithNoEnvironment}"
+						rowKey="#{tar.pkTarget}" 
+						selection="#{uconPolicyWizardController.clickedTarget}"
+						selectionMode="single" scrollable="true" scrollHeight="150">
+						<p:ajax event="rowSelect"
+							listener="#{uconPolicyWizardController.onTargetSelected}"
+							update=":form:targSubject :form:targResource :form:targAction " />
+						<p:ajax event="contextMenu"
+							listener="#{uconPolicyWizardController.onTargetSelected}"
+							update=":form:targSubject :form:targResource :form:targAction " />
+						<p:column>
+							<f:facet name="header">
+								<h:outputText style="text-align: left" value="Target Id" />
+							</f:facet>
+							<h:outputText value="#{tar.targetId}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText style="text-align: left" value="Target Description" />
+							</f:facet>
+							<h:outputText value="#{tar.description}" />
+						</p:column>
+					</p:dataTable>
+					<pe:tooltip for="targetDataTable"
+					value="These are the available targets." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="bottom center" atPosition="top center" />
+					
+					
+					
+					<h:panelGrid columns="8" style="border-style: hidden !important; " rendered="#{uconPolicyWizardController.abcPropertiesAuth}">
+					<p:dataTable id="targSubject" var="tar" rendered="#{uconPolicyWizardController.abcPropertiesAuth}"
+						value="#{uconPolicyWizardController.allTargSubjects}"
+						rowKey="#{tar.pkSubjects}"
+						scrollable="true" scrollHeight="150"
+						resizableColumns="true" style="width: 170px">
+						<p:ajax event="rowSelect" />
+						<p:ajax event="contextMenu" />
+						<p:column >
+
+							<f:facet name="header">
+								<div style="float: left; margin: 0; width: 20px;">
+									<h:outputText value="Available Subjects" />
+								</div>
+								
+							</f:facet>
+							<h:outputText
+								value="#{uconPolicyWizardController.getMatchIdAndValueS(tar)}" />
+						</p:column>
+					</p:dataTable>
+					<pe:tooltip for="targSubject"
+						value="These are the available target subjects."
+						showEffect="slideToggle" hideEvent="click mouseleave"
+						hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+						atPosition="top center" />
+
+					<p:dataTable id="targResource" var="tarRes" rendered="#{uconPolicyWizardController.abcPropertiesAuth}"
+						value="#{uconPolicyWizardController.allTargResources}"
+						rowKey="#{tarRes.pkResources}"
+						scrollable="true" scrollHeight="150"
+						resizableColumns="true" style="width: 170px">
+						<p:ajax event="rowSelect" />
+						<p:ajax event="contextMenu" />
+						<p:column >
+							<f:facet name="header">
+								<div id="c2" style="float: left; margin: 0; width: 20px;">
+									<h:outputText value="Available Resources" />
+								</div>
+								
+							</f:facet>
+							<h:outputText
+								value="#{uconPolicyWizardController.getMatchIdAndValueR(tarRes)}" />
+						</p:column>
+					</p:dataTable>
+					<pe:tooltip for="targResource"
+						value="These are the available target resources."
+						showEffect="slideToggle" hideEvent="click mouseleave"
+						hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+						atPosition="top center" />
+
+
+					<p:dataTable id="targAction" var="tarAct" rendered="#{uconPolicyWizardController.abcPropertiesAuth}"
+						value="#{uconPolicyWizardController.allTargActions}"
+						rowKey="#{tarAct.pkActions}" 
+						scrollable="true" scrollHeight="150"
+						resizableColumns="true" style="width: 170px">
+						<p:ajax event="rowSelect" />
+						<p:ajax event="contextMenu" />
+						<p:column >
+							<f:facet name="header">
+								<div id="c2" style="float: left; margin: 0; width: 20px">
+									<h:outputText value="Available Actions" />
+								</div>
+								
+							</f:facet>
+							<h:outputText
+								value="#{uconPolicyWizardController.getMatchIdAndValueA(tarAct)}" />
+						</p:column>
+					</p:dataTable>
+					<pe:tooltip for="targAction"
+						value="These are the available target actions."
+						showEffect="slideToggle" hideEvent="click mouseleave"
+						hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+						atPosition="top center" />
+				</h:panelGrid>
+					
+					
+					
+					
+					
+					
+					<p:dataTable id="oblTargetDataTable" var="tar" rendered="#{uconPolicyWizardController.abcPropertiesObl}"
+						value="#{uconPolicyWizardController.allOblTarget}"
+						rowKey="#{tar.pkTarget}"
+						selection="#{uconPolicyWizardController.clickedOblTarget}"
+						selectionMode="single" scrollable="true" scrollHeight="150">
+						<p:ajax event="rowSelect"
+							listener="#{uconPolicyWizardController.onTargetSelected}"
+							update=":form:targSubject :form:targResource :form:targAction :form:targEnvironment" />
+						<p:ajax event="contextMenu"
+							listener="#{uconPolicyWizardController.onTargetSelected}"
+							update=":form:targSubject :form:targResource :form:targAction :form:targEnvironment" />
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Target Id" />
+							</f:facet>
+							<h:outputText value="#{tar.targetId}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Target Description" />
+							</f:facet>
+							<h:outputText value="#{tar.description}" />
+						</p:column>
+					</p:dataTable>
+					<pe:tooltip for="oblTargetDataTable"
+					value="These are the available targets." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="bottom center" atPosition="top center" />
+					
+					
+					<p:dataTable id="conditionDataTable1" var="conditionDataTable" rendered="#{uconPolicyWizardController.abcPropertiesObl}"
+						value="#{uconPolicyWizardController.allCondition}"
+						rowKey="#{conditionDataTable.pkCondition}"
+						selection="#{uconPolicyWizardController.selectedCondition}"
+						selectionMode="single" scrollable="true" scrollHeight="150">
+						<p:ajax event="contextMenu" />
+						<p:column width="400px">
+							<f:facet name="header">
+								<h:outputText value="Obligation ID" />
+							</f:facet>
+							<h:outputText value="#{conditionDataTable.pkCondition}" />
+						</p:column>
+						<p:column width="400px">
+							<f:facet name="header">
+								<h:outputText value="Obligation Description" />
+							</f:facet>
+							<h:outputText value="#{conditionDataTable.description}" />
+						</p:column>
+					</p:dataTable>
+					<pe:tooltip for="conditionDataTable1"
+						value="These are the available UCON Obligations."
+						showEffect="slideToggle" hideEvent="click mouseleave"
+						hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+						atPosition="top center" />
+
+					
+					
+					
+					
+					
+					<p:dataTable id="notNullCondTargets" var="tar" rendered="#{uconPolicyWizardController.abcPropertiesCond}"
+						value="#{uconPolicyWizardController.allNotNullCondTargets}"
+						rowKey="#{tar.pkTarget}"
+						selection="#{uconPolicyWizardController.clickedConditionTarget}"
+						selectionMode="single" scrollable="true" scrollHeight="150">
+						<p:ajax event="rowSelect"
+							listener="#{uconPolicyWizardController.onTargetSelected}"
+							update=":form:targSubject :form:targResource :form:targAction :form:targEnvironment" />
+						<p:ajax event="contextMenu"
+							listener="#{uconPolicyWizardController.onTargetSelected}"
+							update=":form:targSubject :form:targResource :form:targAction :form:targEnvironment" />
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Target Id" />
+							</f:facet>
+							<h:outputText value="#{tar.targetId}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Target Description" />
+							</f:facet>
+							<h:outputText value="#{tar.description}" />
+						</p:column>
+					</p:dataTable>
+					<pe:tooltip for="notNullCondTargets"
+					value="These are the available targets which have all NOT null Obligations." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="bottom center" atPosition="top center" />
+					
+					<p:dataTable id="targEnvironment" var="tarEnv" rendered="#{uconPolicyWizardController.abcPropertiesCond}"
+						value="#{uconPolicyWizardController.allTargEnvironments}"
+						rowKey="#{tarEnv.pkEnvironments}"
+						scrollable="true" scrollHeight="150"
+						resizableColumns="true">
+						<p:ajax event="rowSelect" />
+						<p:ajax event="contextMenu" />
+						<p:column style="width:200px">
+							<f:facet name="header">
+								<div id="c2" style="float: left; margin: 0; width: 50">
+									<h:outputText value="Available Conditions" />
+								</div>
+								<div id="c2" style="float: right; margin: 0; width: 50"></div>
+							</f:facet>
+							<h:outputText
+								value="#{uconPolicyWizardController.getMatchIdAndValueE(tarEnv)}" />
+						</p:column>
+					</p:dataTable>
+					<pe:tooltip for="targEnvironment"
+					value="These are the available UCON Conditions." showEffect="slideToggle"
+					hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+					myPosition="bottom center" atPosition="top center" />
+					
+					
+					
+					
+					
+				</h:panelGroup>
+				</div>
+			</fieldset>
+			
+		</p:tab>
+		<p:tab id="update" title="UCON Updates">
+
+
+			<fieldset>
+				<legend>
+					<p:selectBooleanCheckbox id="PreUpdate"
+						value="#{uconPolicyWizardController.preUpdateCheckBox}">
+						<p:ajax
+							update=":form:PreUpdateDataTable :form:PreAddAttrInDataTable :form:PreAttributeIds :form:PreUpdateOutputLabel :form:PreUpdateInputTextValue :form:PreUpdateOutputLabelValue" />
+					</p:selectBooleanCheckbox>
+					<label for="PreUpdate"> PreUpdate</label>
+				</legend>
+				<p:panelGrid style="border-style: hidden !important;">
+					<p:row column="4">
+
+						<p:column>
+							<br />
+							<br />
+							<h:outputLabel id="PreUpdateOutputLabel" value="Attribute ID"
+								disabled="#{!uconPolicyWizardController.preUpdateCheckBox}" />
+						</p:column>
+						
+						<p:column>
+							<br />
+							<br />
+							<p:selectOneMenu styleClass="policysetinputstyle"
+								id="PreAttributeIds"
+								disabled="#{!uconPolicyWizardController.preUpdateCheckBox}"
+								value="#{uconPolicyWizardController.preAttrId}" required="true"
+								requiredMessage="Select Attribute ID">
+								<f:ajax event="change" execute="@this" />
+								<f:selectItem itemLabel="Select Attribute ID" itemValue="" />
+								<f:selectItems value="#{uconPolicyWizardController.attrIds}"
+									var="attrId" itemLabel="#{attrId}" itemValue="#{attrId}" />
+							</p:selectOneMenu>
+							
+							
+						</p:column>
+						
+						<p:column>
+							<br />
+							<br />
+							<p:commandButton id="helpPreSelectAttributeID" icon="ui-icon-help"
+								type="button" />
+						</p:column>	
+						
+						<p:column rowspan="3">
+
+							<p:dataTable id="PreUpdateDataTable" var="PreUpdateDataTableVar"
+								value="#{uconPolicyWizardController.preValues}"
+								rowKey="#{PreUpdateDataTableVar}"
+								selection="#{uconPolicyWizardController.selectedPreUpdate}"
+								selectionMode="single" scrollable="true" scrollHeight="150"
+								resizableColumns="true"
+								disabledSelection="#{!uconPolicyWizardController.preUpdateCheckBox}">
+								<p:ajax event="rowSelect" />
+								<p:ajax event="contextMenu" />
+								<p:column headerText="Attribute ID">#{PreUpdateDataTableVar.attributeId}</p:column>
+								<p:column headerText="Attribute Update Value">#{PreUpdateDataTableVar.attributeValue}</p:column>
+							</p:dataTable>
+							
+						</p:column>
+						
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel id="PreUpdateOutputLabelValue"
+								value="Attribute Value"
+								disabled="#{!uconPolicyWizardController.preUpdateCheckBox}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="PreUpdateInputTextValue" size="27"
+								value="#{uconPolicyWizardController.preValue}"
+								disabled="#{!uconPolicyWizardController.preUpdateCheckBox}"
+								required="true" requiredMessage="Enter Attribute Value">
+								<p:ajax event="mouseout" />
+								<f:validator validatorId="stringValidator" />
+							</p:inputText>
+							
+						</p:column>
+						<p:column>
+							
+						<p:commandButton id="helpPreAttributeValue" icon="ui-icon-help"
+							type="button" />
+						</p:column>	
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel />
+						</p:column>
+						<p:column>
+							<p:commandButton id="PreAddAttrInDataTable" style="float: right"
+								disabled="#{!uconPolicyWizardController.preUpdateCheckBox}"
+								render=":form:PreUpdateDataTable :form:PreAttributeIds :form:PreUpdateInputTextValue"
+								update=":form:PreUpdateDataTable :form:PreAddAttrInDataTable :form:PreAttributeIds :form:PreUpdateOutputLabel :form:PreUpdateInputTextValue :form:PreUpdateOutputLabelValue"
+								action="#{uconPolicyWizardController.preUpdateActionListener}"
+								value="Update" immediate="true">
+								<p:ajax />
+							</p:commandButton>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				
+				
+				
+				
+				
+				
+			</fieldset>
+			
+			<pe:tooltip for="PreAttributeIds" 
+				value="Select pre-update id here." showEffect="slideToggle"
+				hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+				myPosition="left center" atPosition="right center" />
+			
+			<pe:tooltip for="PreUpdateDataTable" 
+				value="These are the available pre-update id and values."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+				
+			<pe:tooltip for="PreUpdateInputTextValue" 
+				value="Enter pre-update value here." showEffect="slideToggle"
+				hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+				myPosition="left center" atPosition="right center" />
+			
+			<fieldset>
+				<legend>
+					<p:selectBooleanCheckbox id="OnGoingUpdate"
+						value="#{uconPolicyWizardController.onGoingUpdateCheckBox}">
+						<p:ajax
+							listener="#{uconPolicyWizardController.changeOnGoingState}"
+							update=":form:OnGoingUpdateDataTable :form:OnGoingAddAttrInDataTable :form:OnGoingAttributeIds :form:OnGoingUpdateOutputLabel :form:OnGoingUpdateInputTextValue :form:OnGoingUpdateOutputLabelValue" />
+					</p:selectBooleanCheckbox>
+					<label for="OnGoingUpdate"> OnGoingUpdate</label>
+				</legend>
+				<p:panelGrid style="border-style: hidden !important;">
+					<p:row>
+
+						<p:column>
+							<br />
+							<br />
+							<h:outputLabel id="OnGoingUpdateOutputLabel" value="Attribute ID"
+								disabled="#{!uconPolicyWizardController.onGoingUpdateCheckBox}" />
+						</p:column>
+						<p:column>
+							<br />
+							<br />
+							<p:selectOneMenu styleClass="policysetinputstyle"
+								id="OnGoingAttributeIds"
+								disabled="#{!uconPolicyWizardController.onGoingUpdateCheckBox}"
+								value="#{uconPolicyWizardController.onGoingAttrId}"
+								required="true" requiredMessage="Select Attribute ID">
+								<f:ajax event="change" execute="@this" />
+								<f:selectItem itemLabel="Select Attribute ID" itemValue="" />
+								<f:selectItems value="#{uconPolicyWizardController.attrIds}"
+									var="attrId" itemLabel="#{attrId}" itemValue="#{attrId}" />
+							</p:selectOneMenu>
+							<pe:tooltip for="OnGoingAttributeIds" 
+								value="Select ongoing-update id here." showEffect="slideToggle"
+								hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+								myPosition="left center" atPosition="right center" />
+						</p:column>
+						<p:column>
+							<br />
+							<br />
+							<p:commandButton id="helpOnGoingSelectAttributeID" icon="ui-icon-help"
+								type="button" />
+						</p:column>
+						
+						<p:column rowspan="3">
+
+							<p:dataTable id="OnGoingUpdateDataTable"
+								var="OnGoingUpdateDataTableVar"
+								value="#{uconPolicyWizardController.onGoingValues}"
+								rowKey="#{OnGoingUpdateDataTableVar}"
+								selection="#{uconPolicyWizardController.selectedOnGoingUpdate}"
+								selectionMode="single" scrollable="true" scrollHeight="150"
+								resizableColumns="true"
+								disabledSelection="#{!uconPolicyWizardController.onGoingUpdateCheckBox}">
+								<p:ajax event="rowSelect" />
+								<p:ajax event="contextMenu" />
+								<p:column headerText="Attribute ID">#{OnGoingUpdateDataTableVar.attributeId}</p:column>
+								<p:column headerText="Attribute Update Value">#{OnGoingUpdateDataTableVar.attributeValue}</p:column>
+							</p:dataTable>
+							<pe:tooltip for="OnGoingUpdateDataTable" 
+								value="These are the available ongoing-update id and values."
+								showEffect="slideToggle" hideEvent="click mouseleave"
+								hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+								atPosition="top center" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel id="OnGoingUpdateOutputLabelValue"
+								value="Attribute Value"
+								disabled="#{!uconPolicyWizardController.onGoingUpdateCheckBox}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="OnGoingUpdateInputTextValue" size="27"
+								value="#{uconPolicyWizardController.onGoingValue}"
+								disabled="#{!uconPolicyWizardController.onGoingUpdateCheckBox}"
+								required="true" requiredMessage="Enter Attribute Value">
+								<p:ajax event="mouseout" />
+								<f:validator validatorId="stringValidator" />
+							</p:inputText>
+							<pe:tooltip for="OnGoingUpdateInputTextValue" 
+								value="Enter ongoing-update value here." showEffect="slideToggle"
+								hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+								myPosition="left center" atPosition="right center" />
+						</p:column>
+						<p:column>
+							<p:commandButton id="helpOnGoingAttributeValue" icon="ui-icon-help"
+								type="button" />
+						</p:column>
+					</p:row>
+					
+					<p:row>
+						<p:column>
+							<h:outputLabel />
+						</p:column>
+						<p:column>
+							<p:commandButton id="OnGoingAddAttrInDataTable"
+								style="float: right"
+								disabled="#{!uconPolicyWizardController.onGoingUpdateCheckBox}"
+								render=":form:OnGoingUpdateDataTable  :form:OnGoingAttributeIds :form:OnGoingUpdateInputTextValue"
+								update=" :form:OnGoingUpdateDataTable :form:OnGoingAddAttrInDataTable :form:OnGoingAttributeIds :form:OnGoingUpdateOutputLabel :form:OnGoingUpdateInputTextValue :form:OnGoingUpdateOutputLabelValue"
+								action="#{uconPolicyWizardController.onGoingUpdateActionListener}"
+								value="Update" immediate="true">
+								<p:ajax />
+							</p:commandButton>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<p:selectBooleanCheckbox id="PostUpdate"
+						value="#{uconPolicyWizardController.postUpdateCheckBox}">
+						<p:ajax
+							update=":form:PostUpdateDataTable :form:PostAddAttrInDataTable :form:PostAttributeIds :form:PostUpdateOutputLabel :form:PostUpdateInputTextValue :form:PostUpdateOutputLabelValue" />
+					</p:selectBooleanCheckbox>
+					<label for="PostUpdate"> PostUpdate</label>
+				</legend>
+				<p:panelGrid style="border-style: hidden !important;">
+					<p:row>
+
+						<p:column>
+							<br />
+							<br />
+							<h:outputLabel id="PostUpdateOutputLabel" value="Attribute ID"
+								disabled="#{!uconPolicyWizardController.postUpdateCheckBox}" />
+						</p:column>
+						<p:column>
+							<br />
+							<br />
+							<p:selectOneMenu styleClass="policysetinputstyle"
+								id="PostAttributeIds"
+								disabled="#{!uconPolicyWizardController.postUpdateCheckBox}"
+								value="#{uconPolicyWizardController.postAttrId}" required="true"
+								requiredMessage="Select Attribute ID">
+								<f:ajax event="change" execute="@this" />
+								<f:selectItem itemLabel="Select Attribute ID" itemValue="" />
+								<f:selectItems value="#{uconPolicyWizardController.attrIds}"
+									var="attrId" itemLabel="#{attrId}" itemValue="#{attrId}" />
+							</p:selectOneMenu>
+							<pe:tooltip for="PostAttributeIds" 
+								value="Select post-update id here." showEffect="slideToggle"
+								hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+								myPosition="left center" atPosition="right center" />
+						</p:column>
+						
+						<p:column>
+							<br />
+							<br />
+							<p:commandButton id="helpPostSelectAttributeID" icon="ui-icon-help"
+								type="button" />
+						</p:column>
+						<p:column rowspan="3">
+
+							<p:dataTable id="PostUpdateDataTable"
+								var="PostUpdateDataTableVar"
+								value="#{uconPolicyWizardController.postValues}"
+								rowKey="#{PostUpdateDataTableVar}"
+								selection="#{uconPolicyWizardController.selectedPostUpdate}"
+								selectionMode="single" scrollable="true" scrollHeight="150"
+								resizableColumns="true"
+								disabledSelection="#{!uconPolicyWizardController.postUpdateCheckBox}">
+								<p:ajax event="rowSelect" />
+								<p:ajax event="contextMenu" />
+
+								<p:column headerText="Attribute ID">#{PostUpdateDataTableVar.attributeId}</p:column>
+								<p:column headerText="Attribute Update Value">#{PostUpdateDataTableVar.attributeValue}</p:column>
+							</p:dataTable>
+							<pe:tooltip for="PostUpdateDataTable" 
+								value="These are the available post-update id and values."
+								showEffect="slideToggle" hideEvent="click mouseleave"
+								hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+								atPosition="top center" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel id="PostUpdateOutputLabelValue"
+								value="Attribute Value"
+								disabled="#{!uconPolicyWizardController.postUpdateCheckBox}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="PostUpdateInputTextValue" size="27"
+								value="#{uconPolicyWizardController.postValue}"
+								disabled="#{!uconPolicyWizardController.postUpdateCheckBox}"
+								required="true" requiredMessage="Enter Attribute Value">
+								<p:ajax event="mouseout" />
+								<f:validator validatorId="stringValidator" />
+							</p:inputText>
+							<pe:tooltip for="PostUpdateInputTextValue" 
+								value="Enter post-update value here." showEffect="slideToggle"
+								hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+								myPosition="left center" atPosition="right center" />
+						</p:column>
+						<p:column>
+							
+							<p:commandButton id="helpPostAttributeValue" icon="ui-icon-help"
+								type="button" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel />
+						</p:column>
+						<p:column>
+							<p:commandButton id="PostAddAttrInDataTable" style="float: right"
+								disabled="#{!uconPolicyWizardController.postUpdateCheckBox}"
+								render=":form:PostUpdateDataTable :form:PostAttributeIds :form:PostUpdateInputTextValue"
+								update=":form:PostUpdateDataTable :form:PostAddAttrInDataTable :form:PostAttributeIds :form:PostUpdateOutputLabel :form:PostUpdateInputTextValue :form:PostUpdateOutputLabelValue"
+								action="#{uconPolicyWizardController.postUpdateActionListener}"
+								value="Update" immediate="true">
+								<p:ajax />
+							</p:commandButton>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</fieldset>
+
+
+			
+		</p:tab>
+		<p:tab id="finalView" title="Final Policy View">
+			<p:panelGrid columns="3">
+				<h:outputText value="Policy Id Generated: "></h:outputText>
+				<h:outputText value="#{uconPolicyWizardController.policyName}"></h:outputText>
+				<h:outputLabel></h:outputLabel>
+				<h:outputText value="Policy Description: "></h:outputText>
+				<h:outputText
+					value="#{uconPolicyWizardController.policyDescription}"></h:outputText>
+				<h:outputLabel></h:outputLabel>
+				<h:outputText value="Authorization Description: "></h:outputText>
+				<h:outputText
+					value="#{uconPolicyWizardController.clickedTarget.description}"></h:outputText>
+				<h:outputLabel></h:outputLabel>
+				<h:outputText value="Request Interval: "
+					rendered="#{uconPolicyWizardController.onGoingReqOrUpdate}"></h:outputText>
+				<p:inputText id="reqInterval" required="true"
+					value="#{uconPolicyWizardController.reqInterval}"
+					disabled="#{!uconPolicyWizardController.onGoingReqOrUpdate}"
+					rendered="#{uconPolicyWizardController.onGoingReqOrUpdate}">
+					<p:ajax event="mouseout" />
+					<f:validator validatorId="integerValidator" />
+				</p:inputText>
+				<p:commandButton id="helpRequestInterval" icon="ui-icon-help"
+					type="button" rendered="#{uconPolicyWizardController.onGoingReqOrUpdate}" />
+				<p:commandButton immediate="true" value="Save Policy"
+				update=":form:targetDataTable form"
+				action="#{uconPolicyWizardController.savePolicy}">
+				</p:commandButton>
+			</p:panelGrid>
+			<pe:tooltip for="reqInterval" 
+				value="Enter request interval here." showEffect="slideToggle"
+				hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+				myPosition="left center" atPosition="right center" />
+			
+			
+		</p:tab>
+	</p:wizard>
+	
+	
+
+	<p:contextMenu id="contextMenuEnvironments" for=":form:targEnvironment">
+		<p:menuitem value="Delete"
+			action="#{uconPolicyWizardController.deleteEnvironment}"
+			update=":form:targEnvironment  " immediate="true" />
+	</p:contextMenu>
+	<p:contextMenu for=":form:PreUpdateDataTable">
+		<p:menuitem value="Delete" update=":form:PreUpdateDataTable"
+			icon="ui-icon-close" immediate="true"
+			action="#{uconPolicyWizardController.deleteRowOfPre}" />
+	</p:contextMenu>
+	<p:contextMenu for=":form:OnGoingUpdateDataTable">
+		<p:menuitem value="Delete" update=":form:OnGoingUpdateDataTable"
+			icon="ui-icon-close" immediate="true"
+			action="#{uconPolicyWizardController.deleteRowOfOnGoing}" />
+	</p:contextMenu>
+	<p:contextMenu for=":form:PostUpdateDataTable">
+		<p:menuitem value="Delete" update=":form:PostUpdateDataTable"
+			icon="ui-icon-close" immediate="true"
+			action="#{uconPolicyWizardController.deleteRowOfPost}" />
+	</p:contextMenu>
+	<p:contextMenu id="contextMenuResources" for=":form:targResource">
+		<p:menuitem value="Delete"
+			action="#{uconPolicyWizardController.deleteResource}"
+			update=":form:targResource  " immediate="true" />
+	</p:contextMenu>
+	<p:contextMenu id="contextMenuActions" for=":form:targAction">
+		<p:menuitem value="Delete"
+			action="#{uconPolicyWizardController.deleteAction}"
+			update=":form:targAction  " immediate="true" />
+	</p:contextMenu>
+
+	<p:contextMenu id="contextMenu" for=":form:targSubject">
+		<p:menuitem value="Delete"
+			action="#{uconPolicyWizardController.deleteSubject}"
+			update=":form:targSubject  " immediate="true" />
+	</p:contextMenu>
+	<p:contextMenu id="contextMenuSubjects" for=":form:targetDataTable">
+		<p:menuitem id="updateTarget" value="Update Authorization Description"
+			onclick="triggerHiddenEvent('updateTarget'); return false;" />
+
+
+		<p:menuitem value="Delete"
+			action="#{uconPolicyWizardController.deleteTarget}"
+			update=":form:targetDataTable :form:targEnvironment :form:targSubject :form:targAction :form:targResource  "
+			immediate="true" />
+	</p:contextMenu>
+	<p:commandButton id="updateTargetCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.updateTargetByDialog}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showUpdateMessage}"
+			update=":form:targetDataTable" />
+	</p:commandButton>
+	<p:commandButton id="updateSubjectCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.updateTargetSubjectByDialog}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showUpdateMessage}"
+			update=":form:targSubject" />
+	</p:commandButton>
+
+	<p:commandButton id="updateResourceCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.updateTargetResourceByDialog}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showUpdateMessage}"
+			update=":form:targResource" />
+	</p:commandButton>
+	<p:commandButton id="updateActionCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.updateTargetActionByDialog}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showUpdateMessage}"
+			update=":form:targAction" />
+	</p:commandButton>
+
+	<p:commandButton id="updateEnvironmentCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.updateTargetEnvironmentByDialog}">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showUpdateMessage}"
+			update=":form:targEnvironment" />
+	</p:commandButton>
+
+
+	<p:commandButton id="addTargetCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.addTargetByDialog}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showAddMessage}"
+			update=":form:targetDataTable" />
+	</p:commandButton>
+	<p:commandButton id="addSubjectCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.addTargetSubjectByDialog}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showAddMessage}"
+			update=":form:targSubject" />
+	</p:commandButton>
+
+	<p:commandButton id="addResourceCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.addTargetResourceByDialog}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showAddMessage}"
+			update=":form:targResource" />
+	</p:commandButton>
+	<p:commandButton id="addActionCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.addTargetActionByDialog}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showAddMessage}"
+			update=":form:targAction" />
+	</p:commandButton>
+
+	<p:commandButton id="addEnvironmentCommand" styleClass="button"
+		style="display:none"
+		action="#{uconPolicyWizardController.addTargetEnvironmentByDialog}">
+		<p:ajax event="dialogReturn"
+			listener="#{uconPolicyWizardController.showAddMessage}"
+			update=":form:targEnvironment" />
+	</p:commandButton>
+
+	<h:outputScript>
+	function triggerHiddenEvent( id) {
+    document.getElementById("form:"+id+"Command").click();
+    console.log('its called '+id);
+  }
+  </h:outputScript>
+	<script>
+		/*   //Get the scrollheight
+		     var s = jQuery('#targetDataTable.ui-datatable-scrollable-body').prop('scrollHeight');
+
+		     //Get total size of datatable
+		     var o = jQuery('#targetDataTable.ui-datatable-scrollable-body').prop('offsetHeight');
+
+		     //calculate how many times it can scrolldown to set your timer
+		     var t = Math.ceil(s/o);
+		     //Excute scrolldown animation (max scrolldown is  scrollHeight - offsetHeight)
+		     $('#targetDataTable.ui-datatable-scrollable-body').animate({scrollTop:s-0}, t*1000);  */
+	</script>
+	</h:form>
+	</h:body>
+</html>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

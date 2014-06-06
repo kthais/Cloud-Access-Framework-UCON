@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyId="newUconurn:pre:on:1:3:211" Version="2.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>abcdefghij</Description>
+    <Target>
+              <Subjects>
+        <Subject>
+          <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">2</AttributeValue>
+            <SubjectAttributeDesignator AttributeId="user-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true"/>
+          </SubjectMatch>
+        </Subject>
+      </Subjects>
+              <Environments>
+            <Environment>
+                <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">04:34:41</AttributeValue>
+                    <EnvironmentAttributeDesignator AttributeId="time" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true"/>
+                </EnvironmentMatch>
+            </Environment>
+        </Environments>
+        </Target>
+          <Rule RuleId="newUconurn:pre:on:1:3:2" Effect="Permit" />
+          <Obligations>
+        <Obligation ObligationId="urn:xacml:ucon:preUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="update_startTime" DataType="http://www.w3.org/2001/XMLSchema#string">Time Update</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:onGoingUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="update_Time" DataType="http://www.w3.org/2001/XMLSchema#string">acvd</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:on" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="request_interval" DataType="http://www.w3.org/2001/XMLSchema#string">15</AttributeAssignment>
+        </Obligation>
+        </Obligations>
+        </Policy>

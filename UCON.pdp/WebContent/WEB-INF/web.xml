@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>PDP Endpoint</display-name>
+  <description>
+     XACML PDP Web Application for the PicketLink project
+   </description>
+  <context-param>
+    <param-name>debug</param-name>
+    <param-value>false</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>SOAPServlet</servlet-name>
+    <servlet-class>org.picketlink.identity.federation.bindings.servlets.SOAPSAMLXACMLServlet</servlet-class>
+    <init-param>
+      <param-name>issuer</param-name>
+      <param-value>redhatPdpEntity</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SOAPServlet</servlet-name>
+    <url-pattern>/SOAPServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>SOAPSAMLXACMLPDPServlet</servlet-name>
+    <servlet-class>org.picketlink.identity.federation.core.pdp.SOAPSAMLXACMLPDP</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SOAPSAMLXACMLPDPServlet</servlet-name>
+    <url-pattern>/SOAPSAMLXACMLPDP</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Apache-Axis Servlet</display-name>
+    <servlet-name>AxisServlet</servlet-name>
+    <servlet-class>org.apache.axis2.transport.http.AxisServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>/servlet/AxisServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>*.jws</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Apache-Axis Admin Servlet Web Admin</display-name>
+    <servlet-name>AxisAdminServlet</servlet-name>
+    <servlet-class>org.apache.axis2.transport.http.AxisAdminServlet</servlet-class>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AxisAdminServlet</servlet-name>
+    <url-pattern>/axis2-admin/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Axis Admin Servlet</display-name>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>org.apache.axis.transport.http.AdminServlet</servlet-class>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/servlet/AdminServlet</url-pattern>
+  </servlet-mapping>
+</web-app>

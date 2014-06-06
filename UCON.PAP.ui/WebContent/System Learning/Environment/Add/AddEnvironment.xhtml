@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Create Environment</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+</h:head>
+<h:body style="background:#eeeeee">
+	<h:form id="form">
+		<fieldset>
+			<legend
+				style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Create
+				Environment</legend>
+			<br />
+			<p:panelGrid columns="4" style="border-style: hidden !important;">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Environment Name: " />
+				<p:inputText styleClass="policysetinputstyle" id="environmentName"
+					value="#{addEnvironmentController.name}" required="true"
+					requiredMessage="Name cannot be null">
+					<f:validator validatorId="stringValidator" />
+				</p:inputText>
+				<p:commandButton id="helpEnvironmentName" icon="ui-icon-help"
+					type="button" />
+				<p:message for="environmentName" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Environment Description: " />
+				<p:inputTextarea rows="3" autoResize="false"
+					styleClass="policysetinputstyle" id="environmentDescription"
+					value="#{addEnvironmentController.description}" required="true"
+					requiredMessage="Description cannot be null">
+				</p:inputTextarea>
+				<p:commandButton id="helpEnvironmentDescription" icon="ui-icon-help"
+					type="button" />
+				<p:message for="environmentDescription" />
+
+
+			</p:panelGrid>
+			<pe:tooltip for="environmentName"
+				value="Enter the environment name here." showEffect="slideToggle"
+				hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+				myPosition="left center" atPosition="right center" />
+
+			<pe:tooltip for="environmentDescription"
+				value="Enter the environment description here."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpEnvironmentName"
+				value="The surroundings of an Entity which require access to a resource.Like Access Time, IP, Location etc"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpEnvironmentDescription"
+				value="Description regarding the surroundings of the Entity requiring access."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<br /> <br />
+			<p:panelGrid styleClass="tableWidthStyleSystem" columns="2"
+				style="border-style: hidden !important;">
+				<p:dataTable id="environmentAttributeDataTable"
+					var="environmentAttribute"
+					value="#{addEnvironmentController.environmentAttributeList}"
+					rowKey="#{environmentAttribute}"
+					selection="#{addEnvironmentController.selectedEnvironmentAttribute}"
+					selectionMode="single" paginator="true" rows="5"
+					paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+					paginatorPosition="bottom" paginatorAlwaysVisible="false"
+					style="height:150px; width: 450px">
+					<p:ajax event="rowSelect"
+						update=":form:environmentAttributeValueDataTable"></p:ajax>
+					<p:column style="width:200px">
+						<f:facet name="header">
+							<div id="c1" style="float: left; margin: 0; width: 50">
+								<h:outputText value="Environment Attributes" />
+							</div>
+							<div style="float: right; margin: 0; width: 50">
+								<p:commandButton icon="ui-icon ui-icon-plusthick"
+									id="addEnvironmentAttribute"
+									action="#{addEnvironmentController.addEnvironmentAttribute}"
+									immediate="true">
+									<p:ajax event="dialogReturn"
+										update=":form:environmentAttributeDataTable :form:environmentAttributeValueDataTable"></p:ajax>
+								</p:commandButton>
+							</div>
+						</f:facet>
+						<h:outputText value="#{environmentAttribute.envAttrId}" />
+					</p:column>
+
+				</p:dataTable>
+				
+
+				<p:dataTable id="environmentAttributeValueDataTable"
+					var="environmentAttributeValue" rowKey="environmentAttributeValue"
+					value="#{addEnvironmentController.environmentAttributeValueList}"
+					paginator="true" rows="5"
+					paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+					paginatorPosition="bottom" paginatorAlwaysVisible="false"
+					style="height:150px; width: 450px">
+					<p:column style="width:200px">
+						<f:facet name="header">
+							<div id="c1" style="float: left; margin: 0; width: 50">
+								<h:outputText value="Environment Attribute Values" />
+							</div>
+							<div style="float: right; margin: 0; width: 50">
+								<p:commandButton icon="ui-icon ui-icon-plusthick"
+									id="addEnvironmentAttributeValue"
+									actionListener="#{addEnvironmentController.addEnvironmentAttributeValue}"
+									immediate="true">
+									<p:ajax event="dialogReturn"
+										update=":form:environmentAttributeValueDataTable" />
+								</p:commandButton>
+							</div>
+						</f:facet>
+						<h:outputText value="#{environmentAttributeValue.envAttrValue}" />
+					</p:column>
+
+				</p:dataTable>
+				
+			</p:panelGrid>
+			<pe:tooltip for=":form:environmentAttributeDataTable"
+					value="These are the available environment attributes."
+					showEffect="slideToggle" hideEvent="click mouseleave"
+					hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+					atPosition="top center" />
+			<pe:tooltip for="environmentAttributeValueDataTable"
+					value="These are the available environment attribute values."
+					showEffect="slideToggle" hideEvent="click mouseleave"
+					hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+					atPosition="top center" />
+			<br /> <br /> <br />
+
+			<p:commandButton styleClass="buttonstyle" id="cancelEnvironment"
+				value="Cancel "
+				action="#{addEnvironmentController.cancelEnvironment}"
+				immediate="true" update="form" />
+			<p:commandButton styleClass="buttonstyle" id="saveEnvironment"
+				value="Save" action="#{addEnvironmentController.saveEnvironment}"
+				update="form" />
+
+			<p:defaultCommand target="saveEnvironment"></p:defaultCommand>
+		</fieldset>
+	</h:form>
+
+
+
+	<p:dialog modal="true" id="dialog1" header="Add Environment Attribute"
+		widgetVar="ex">
+
+		<p:ajax event="close"
+			update=":form:environmentAttributeDataTable :form:environmentAttributeValueDataTable"></p:ajax>
+		<h:form id="form1" style="margin-left:25px">
+			<p:panelGrid id="addNewEnvironmentAttributePanel" columns="4"
+				style="border-style: hidden !important;">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Attribute Name " />
+				<p:inputText styleClass="dialoginputstyle"
+					id="environmentAttributeName"
+					value="#{addEnvironmentController.attributeName}" required="true"
+					requiredMessage="Name cannot be null">
+					<f:validator validatorId="stringValidator" />
+				</p:inputText>
+				<p:commandButton id="helpEnvironmentAttributeName"
+					icon="ui-icon-help" type="button" />
+				<p:message for="environmentAttributeName" />
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					for="dataType" value="Data Type: " />
+				<p:selectOneListbox style="height:60px" id="dataType"
+					value="#{addEnvironmentController.selectedDataType}"
+					required="true" requiredMessage="DataType cannot be null">
+					<f:ajax event="change" execute="@this" />
+					<f:selectItems value="#{addEnvironmentController.dataTypeList}"
+						var="dType" itemLabel="#{dType}" itemValue="#{dType}" />
+				</p:selectOneListbox>
+				<p:commandButton id="helpDataType" icon="ui-icon-help" type="button" />
+				<p:message for="dataType" />
+
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Attribute Value " />
+				<p:inputText styleClass="dialoginputstyle"
+					id="environmentAttributeValueOne"
+					value="#{addEnvironmentController.attributeValueDefault}"
+					required="true" requiredMessage="Attribute Value cannot be null">
+					<f:attribute name="item"
+						value="#{addEnvironmentController.selectedDataType}" />
+					<f:validator validatorId="dataTypeValidator" />
+				</p:inputText>
+				<p:commandButton id="helpEnvironmentAttributeValueOne"
+					icon="ui-icon-help" type="button" />
+				<p:message for="environmentAttributeValueOne" />
+			</p:panelGrid>
+			<pe:tooltip for="helpEnvironmentAttributeName"
+				value="Name of Environment attribute. Like Time is an Environment that can have Start Time, 
+				End Time etc as attributes"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpDataType"
+				value="Data Type of attribute. Like String, Integer etc"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpEnvironmentAttributeValueOne"
+				value="Value of Environment attribute. Like Time is an Environment with attribute Start Time
+				 with Value 9 AM and End Time attrbiute with value 5 PM etc."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+			<br />
+			<p:commandButton styleClass="buttonstyle"
+				id="cancelEnvironmentAttribute" value="Cancel "
+				action="#{addEnvironmentController.cancelAddEnvironmentAttribute}"
+				immediate="true" update=" form1">
+				<p:resetInput target=" form1" />
+			</p:commandButton>
+			
+			&nbsp;
+			
+		<p:commandButton styleClass="buttonstyle"
+				id="saveEnvironmentAttribute" value="Save "
+				action="#{addEnvironmentController.saveAddEnvironmentAttribute}"
+				update=" form1" />
+
+
+			<p:defaultCommand target="saveEnvironmentAttribute"></p:defaultCommand>
+		</h:form>
+
+	</p:dialog>
+
+
+
+	<p:dialog modal="true" id="dialog2"
+		header="Add Environment Attribute Value" widgetVar="ex1">
+
+		<p:ajax event="close"
+			update=":form:environmentAttributeDataTable :form:environmentAttributeValueDataTable"></p:ajax>
+
+
+		<h:form id="form2" style="margin-left:25px">
+			<h:panelGrid id="addEnvironmentAttributeValuePanel" columns="4"
+				style="border-style: hidden !important;">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px; "
+					value="Attribute Value " />
+				<p:inputText id="environmentAttributeValue"
+					value="#{addEnvironmentController.attributeValue}" required="true"
+					requiredMessage="Attribute Value cannot be null">
+					<f:attribute name="item"
+						value="#{addEnvironmentController.selectedEnvironmentAttribute.dataType}" />
+					<f:validator validatorId="dataTypeValidator" />
+				</p:inputText>
+				<p:commandButton id="helpEnvironmentAttributeValue"
+					icon="ui-icon-help" type="button" />
+				<p:message for="environmentAttributeValue" />
+			</h:panelGrid>
+			<pe:tooltip for="helpEnvironmentAttributeValue"
+				value="Value of Environment attribute. Like Time is an Environment with attribute Start Time
+				 with Value 9 AM and End Time attrbiute with value 5 PM etc."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+			<br />
+			<p:commandButton styleClass="buttonstyle"
+				id="cancelEnvironmentAttributeValue" value="Cancel "
+				action="#{addEnvironmentController.cancelAddEnvironmentAttributeValue}"
+				immediate="true" update=" form2">
+				<p:resetInput target=" form2" />
+			</p:commandButton>
+			
+			&nbsp;
+		
+		
+		<p:commandButton styleClass="buttonstyle"
+				id="saveEnvironmentAttributeValue" value="Save "
+				action="#{addEnvironmentController.saveAddEnvironmentAttributeValue}"
+				update=" form2" />
+
+			<p:defaultCommand target="saveEnvironmentAttributeValue"></p:defaultCommand>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

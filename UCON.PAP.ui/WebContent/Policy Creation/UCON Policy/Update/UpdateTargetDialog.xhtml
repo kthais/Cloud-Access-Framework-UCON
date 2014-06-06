@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Update Target</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:panelGrid id="updateTargetPanel" columns="3"
+			style="border-style: hidden !important;">
+			<h:outputLabel
+				style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+				value="Target Name :"></h:outputLabel>
+			<p:inputText id="targetName" styleClass="updatesubjectstyle"
+				value="#{targetController.updatedTargetId}"
+				onchange="#{targetController.updatedTargetId}" required="true"
+				requiredMessage="Name cannot be null">
+				<f:validator validatorId="stringValidator" />
+			</p:inputText>
+
+			<p:message for="targetName" />
+
+
+			<h:outputLabel
+				style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+				value="Authorization Description :"></h:outputLabel>
+
+			<p:inputTextarea id="targetDescription"
+				styleClass="updatesubjectstyle" rows="3" autoResize="false"
+				value="#{targetController.updatedDescription}"
+				onchange="#{targetController.updatedDescription}" required="true"
+				requiredMessage="Description cannot be null">
+				<p:ajax event="change" />
+			</p:inputTextarea>
+			<p:message for="targetDescription" />
+		</p:panelGrid>
+
+
+		<br />
+
+		<p:commandButton styleClass="buttonstyle" id="cancelButton"
+			action="#{targetController.cancelUpdatedTargetDescription}"
+			value="Cancel" immediate="true" update="form" />
+
+		<p:commandButton styleClass="buttonstyle" id="saveButton"
+			action="#{targetController.saveUpdatedTargetDescription}"
+			value="Save" update="form" />
+
+		<p:defaultCommand target="saveButton"></p:defaultCommand>
+	</h:form>
+</h:body>
+</html>

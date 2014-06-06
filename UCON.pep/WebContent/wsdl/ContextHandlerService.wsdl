@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://pep.ucon.jboss.accesscontrol.aislab.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://pep.ucon.jboss.accesscontrol.aislab.com" xmlns:intf="http://pep.ucon.jboss.accesscontrol.aislab.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://pep.ucon.jboss.accesscontrol.aislab.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="transformRequesttoXACML">
+    <complexType>
+     <sequence>
+      <element name="jsonRequest" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="transformRequesttoXACMLResponse">
+    <complexType>
+     <sequence>
+      <element name="transformRequesttoXACMLReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="transformRequesttoXACMLResponse">
+
+      <wsdl:part element="impl:transformRequesttoXACMLResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="transformRequesttoXACMLRequest">
+
+      <wsdl:part element="impl:transformRequesttoXACML" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="ContextHandlerService">
+
+      <wsdl:operation name="transformRequesttoXACML">
+
+         <wsdl:input message="impl:transformRequesttoXACMLRequest" name="transformRequesttoXACMLRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:transformRequesttoXACMLResponse" name="transformRequesttoXACMLResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ContextHandlerServiceSoapBinding" type="impl:ContextHandlerService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="transformRequesttoXACML">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="transformRequesttoXACMLRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="transformRequesttoXACMLResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ContextHandlerServiceService">
+
+      <wsdl:port binding="impl:ContextHandlerServiceSoapBinding" name="ContextHandlerService">
+
+         <wsdlsoap:address location="http://localhost:8080/com.aislab.accesscontrol.jboss.ucon.pep/services/ContextHandlerService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

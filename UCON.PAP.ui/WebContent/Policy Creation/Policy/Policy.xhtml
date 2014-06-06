@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:head>
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=ISO-8859-1" />
+		<title>Policy</title>
+		<f:facet name="last">
+			<link rel="stylesheet" type="text/css"
+				href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+		</f:facet>
+	</h:head>
+
+	<fieldset>
+		<legend
+			style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Policy</legend>
+		<br />
+		<p:growl id="growlPolicy" showDetail="true" autoUpdate="true"
+			globalOnly="true" />
+		<p:dataTable id="policy" var="policy"
+			value="#{policyController.policyList}" rowKey="#{policy.pkPolicy}"
+			selection="#{policyController.selectedPolicy}" selectionMode="single"
+			scrollable="true" scrollHeight="250">
+			<p:ajax event="rowSelect"></p:ajax>
+			<p:ajax event="rowUnselect"
+				listener="#{policyController.onPolicyUnSelect}">
+			</p:ajax>
+			<p:ajax event="contextMenu" />
+			<p:column width="250">
+				<f:facet name="header">
+					<h:outputText style="text-align: left" value="Policy" />
+				</f:facet>
+				<h:outputText style="text-align: left"  value="#{policy.policyId}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="text-align: left" value="Rule Combining Algorithm" />
+				</f:facet>
+				<h:outputText style="text-align: left" value="#{policy.ruleCombAlgo}" />
+			</p:column>
+
+			<p:column style="width:200px">
+				<f:facet name="header">
+					<h:outputText style="text-align: left" value="Applicable Targets" />
+				</f:facet>
+				<h:outputText
+					style="text-align: left" value="#{policyController.getPolicyTarget(policy.pkPolicy)}" />
+			</p:column>
+			
+			<p:column style="width:200px">
+				<f:facet name="header">
+					<h:outputText style="text-align: left" value="Applicable Rule" />
+				</f:facet>
+				<h:outputText
+					style="text-align: left" value="#{policyController.getPolicyRule(policy.pkPolicy)}" />
+			</p:column>
+
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="text-align: left" value="Description" />
+				</f:facet>
+				<h:outputText style="text-align: left" value="#{policy.description}" />
+			</p:column>
+		</p:dataTable>
+		<pe:tooltip for="policy" value="These are the available policies."
+			showEffect="slideToggle" hideEvent="click mouseleave"
+			hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+			atPosition="top center" />
+		
+		<br> </br>
+		<p:commandButton id="addPolicyButton" value="Add Policy"
+			action="#{policyController.addPolicy}"
+			style="width:10%; float:right;">
+			<p:ajax event="dialogReturn"
+				update=" :form:policy :form:growlPolicy"
+				listener="#{addPolicyController.showAddMessage}" />
+		</p:commandButton>
+	</fieldset>
+	
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">  
+        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"	/>
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+    </p:confirmDialog>
+	
+	<p:contextMenu for="policy">
+		<p:menuitem id="updatePolicy" value="Update"
+			onclick="triggerHiddenEvent('updatePolicy'); return false;" />
+		<p:menuitem id="deletePolicy" value="Delete"
+			onclick="triggerHiddenEvent('deletePolicy'); return false;"  />
+	</p:contextMenu>
+
+	<p:commandButton id="deletePolicyCommand" styleClass="button"
+		action="#{policyController.deletePolicy}" style="display:none"
+		update=":form:policy :form:growlPolicy">
+		<p:confirm header="Confirmation" message="Are you sure you want to delete?" icon="ui-icon-alert" />  
+		<p:ajax event="dialogReturn"
+			listener="#{policyController.showDeleteMessage}" 
+			/>
+	</p:commandButton>
+	
+	<p:commandButton id="updatePolicyCommand" styleClass="button"
+		action="#{policyController.updatePolicy}" style="display:none">
+		<p:ajax event="dialogReturn"
+			update=" :form:policy :form:growlPolicy "
+			listener="#{policyController.showUpdateMessage}" />
+	</p:commandButton>
+
+	<h:outputScript>
+function triggerHiddenEvent( id) {
+    document.getElementById("form:"+id+"Command").click();
+  }
+</h:outputScript>
+</ui:composition>
+
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

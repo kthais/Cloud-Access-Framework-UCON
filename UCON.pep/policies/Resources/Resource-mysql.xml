@@ -1,0 +1,28 @@
+<!-- Creating PolicySet -->
+<PolicySet PolicySetId="RPS:Resource-type:Database:Mysql"
+	PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides">
+	<Description>
+Includes Policy Sets for mysql and references its usage types Policy Set.
+</Description>
+	<Target />
+	<PolicySet PolicySetId="RPS:Resource-type:Database:MySql1"
+		PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides">
+		<Description>
+			This the required policy Set.
+		</Description>
+		<Target>
+<Resources>
+<Resource>
+          <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:oasis:org:resources:mysql</AttributeValue>
+            <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+          </ResourceMatch>
+        </Resource>
+		
+
+	
+		</Resources>
+		</Target>
+		<PolicySetIdReference>UTPS:Resource-type:Database:Mysql:Usage-type</PolicySetIdReference>
+	</PolicySet>
+	</PolicySet>

@@ -1,0 +1,263 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:head>
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=ISO-8859-1" />
+		<title>Action</title>
+		<f:facet name="last">
+			<link rel="stylesheet" type="text/css"
+				href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+		</f:facet>
+	</h:head>
+
+	<p:growl id="growlAction" showDetail="true" autoUpdate="true"
+		globalOnly="true" />
+	<fieldset>
+		<legend
+			style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Action</legend>
+
+		<p:dataTable id="actionDataTable" var="actionDataTable"
+			value="#{actionController.actionList}"
+			rowKey="#{actionDataTable.pkAction}"
+			selection="#{actionController.selectedAction}" selectionMode="single"
+			paginator="true" rows="5"
+			paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+			paginatorPosition="bottom" paginatorAlwaysVisible="false"
+			style="height:150px" >
+			<p:ajax event="rowSelect"
+				listener="#{actionController.onActionSelect}"
+				update="   :form:actionAttributeDataTable :form:actionAttributeValueDataTable  "></p:ajax>
+			<p:ajax event="rowUnselect"
+				listener="#{actionController.onActionUnSelect}"
+				update="   :form:actionAttributeDataTable :form:actionAttributeValueDataTable  "></p:ajax>
+
+			<p:ajax event="contextMenu" />
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="Action Name" />
+				</f:facet>
+				<h:outputText value="#{actionDataTable.actionName}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="Action Description" />
+				</f:facet>
+				<h:outputText value="#{actionDataTable.description}" />
+			</p:column>
+		</p:dataTable>
+		<pe:tooltip for="actionDataTable"
+			value="These are the available actions." showEffect="slideToggle"
+			hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+			myPosition="bottom center" atPosition="top center" />
+
+		<p:spacer height="10"></p:spacer>
+		<h:panelGrid styleClass="tableWidthStyle" columns="4"
+			style="border-style: hidden !important;">
+			<p:dataTable id="actionAttributeDataTable"
+				var="actionAttributeDataTable"
+				value="#{actionController.actionAttributeList}"
+				rowKey="#{actionAttributeDataTable.pkActAttr}"
+				selection="#{actionController.selectedActionAttributes}"
+				selectionMode="single" paginator="true" rows="5"
+				paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+				paginatorPosition="bottom" paginatorAlwaysVisible="false"
+				style="height:150px; width:575px" >
+				<p:ajax event="rowSelect"
+					update=":form:actionAttributeValueDataTable  "></p:ajax>
+				<p:ajax event="rowUnselect"
+					listener="#{actionController.onActionAttributeUnSelect}"
+					update="    :form:actionAttributeValueDataTable  "></p:ajax>
+
+				<p:ajax event="contextMenu" />
+
+				<p:column >
+					<f:facet name="header">
+
+						<div style="float: left; margin: 0">
+
+							<h:outputText value="Action Attributes" />
+						</div>
+						<div style="float: right; margin: 0">
+
+							<p:commandButton icon="ui-icon-plusthick"
+								id="addActionattrButton1" immediate="true"
+								action="#{actionController.addActionAttribute}"
+								disabled="#{actionController.attrbtn}"
+								update=":form:actionAttributeDataTable :form:actionAttributeValueDataTable ">
+								<p:ajax event="dialogReturn"
+									listener="#{actionController.showAddMessage}"
+									update=" :form:actionAttributeDataTable  :form:growlAction" />
+							</p:commandButton>
+						</div>
+
+					</f:facet>
+					<h:outputText value="#{actionAttributeDataTable.actAttrId}" />
+				</p:column>
+
+			</p:dataTable>
+			
+
+
+
+			<p:dataTable id="actionAttributeValueDataTable"
+				var="actionAttributeValueDataTable"
+				value="#{actionController.actionAttributeValueList}"
+				rowKey="#{actionAttributeValueDataTable.pkActAttrVal}"
+				selection="#{actionController.selectedActionAttributeValue}"
+				selectionMode="single" paginator="true" rows="5"
+				paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+				paginatorPosition="bottom" paginatorAlwaysVisible="false"
+				style="height:150px; width:575px">
+				<p:ajax event="contextMenu" />
+				<p:column >
+					<f:facet name="header">
+
+						<div style="float: left; margin: 0">
+							<h:outputText value="Action Attribute Value" />
+						</div>
+						<div style="float: right; margin: 0">
+							<p:commandButton id="addActionattrvalueButton"
+								icon="ui-icon-plusthick" immediate="true"
+								action="#{actionController.addActionAttributeValue}"
+								disabled="#{actionController.attrValuebtn}"
+								update=":form:actionAttributeValueDataTable ">
+								<p:ajax event="dialogReturn"
+									listener="#{actionController.showAddMessage}"
+									update=" :form:actionAttributeValueDataTable  :form:growlAction" />
+
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText value="#{actionAttributeValueDataTable.actAttrValue}" />
+				</p:column>
+			</p:dataTable>
+			
+		</h:panelGrid>
+		<pe:tooltip for="actionAttributeDataTable"
+				value="These are the available action attributes."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+		<pe:tooltip for="actionAttributeValueDataTable"
+				value="These are the available action attribute values."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+		<br />
+		<br />
+		<br />
+		<p:commandButton style="float:right;" id="addActionButton"
+			value="Add Action" immediate="true"
+			action="#{actionController.addAction}" update=":form:growlAction">
+			<p:ajax event="dialogReturn"
+				update=" :form:actionDataTable :form:actionAttributeDataTable :form:actionAttributeValueDataTable :form:growlAction "
+				listener="#{addActionController.showAddMessage}" />
+		</p:commandButton>
+	</fieldset>
+
+
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+		<p:commandButton value="Yes" type="button"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+
+	<p:contextMenu for="actionDataTable">
+		<p:menuitem id="updateAction" value="Update"
+			onclick="triggerHiddenEvent('updateAction'); return false;" />
+		<p:menuitem id="deleteAction" value="Delete"
+			onclick="triggerHiddenEvent('deleteAction'); return false;" />
+	</p:contextMenu>
+	<p:contextMenu for="actionAttributeDataTable">
+		<p:menuitem id="updateActionAttribute" value="Update"
+			onclick="triggerHiddenEvent('updateActionAttribute'); return false;" />
+		<p:menuitem id="deleteActionAttribute" value="Delete"
+			onclick="triggerHiddenEvent('deleteActionAttribute'); return false;" />
+
+	</p:contextMenu>
+	<p:contextMenu for="actionAttributeValueDataTable">
+		<p:menuitem id="updateActionAttributeValue" value="Update"
+			onclick="triggerHiddenEvent('updateActionAttributeValue'); return false;"
+			update=":form:growlAction " />
+		<p:menuitem id="deleteActionAttributeValue" value="Delete"
+			onclick="triggerHiddenEvent('deleteActionAttributeValue'); return false;" />
+
+	</p:contextMenu>
+
+	<p:commandButton id="deleteActionCommand" styleClass="button"
+		action="#{actionController.deleteAction}" style="display:none"
+		update=":form:actionDataTable :form:actionAttributeDataTable :form:actionAttributeValueDataTable :form:growlAction">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+	<p:commandButton id="deleteActionAttributeCommand" styleClass="button"
+		action="#{actionController.deleteActionAttribute}"
+		style="display:none"
+		update=":form:actionAttributeDataTable :form:actionAttributeValueDataTable :form:growlAction">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+
+	<p:commandButton id="deleteActionAttributeValueCommand"
+		styleClass="button"
+		action="#{actionController.deleteActionAttributeValue}"
+		style="display:none"
+		update=":form:actionAttributeValueDataTable :form:growlAction">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+
+	<p:commandButton id="updateActionCommand" styleClass="button"
+		action="#{actionController.updateAction}" style="display:none;">
+		<p:ajax event="dialogReturn"
+			listener="#{actionController.showUpdateMessage}"
+			update=" :form:actionDataTable :form:growlAction " />
+	</p:commandButton>
+	<p:commandButton id="updateActionAttributeCommand" styleClass="button"
+		action="#{actionController.updateActionAttribute}"
+		style="display:none">
+		<p:ajax event="dialogReturn"
+			listener="#{actionController.showUpdateMessage}"
+			update=" :form:actionAttributeDataTable  :form:growlAction" />
+	</p:commandButton>
+	<p:commandButton id="updateActionAttributeValueCommand"
+		styleClass="button"
+		action="#{actionController.updateActionAttributeValue}"
+		style="display:none">
+		<p:ajax event="dialogReturn"
+			listener="#{actionController.showUpdateMessage}"
+			update=" :form:actionAttributeValueDataTable :form:growlAction " />
+	</p:commandButton>
+
+
+
+	<h:outputScript>
+function triggerHiddenEvent( id) {
+    document.getElementById("form:"+id+"Command").click();
+  }
+</h:outputScript>
+</ui:composition>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

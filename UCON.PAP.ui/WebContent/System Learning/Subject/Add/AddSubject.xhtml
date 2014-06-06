@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Create Subject</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+</h:head>
+
+
+
+<h:body style="background:#eeeeee">
+	<h:form id="form">
+
+		<fieldset>
+			<legend
+				style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Create
+				Subject</legend>
+			<br />
+			<p:panelGrid columns="4" style="border-style: hidden !important;">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif;"
+					value="Subject Name: " />
+				<p:inputText styleClass="policysetinputstyle" id="subjectName"
+					value="#{addSubjectController.name}" required="true"
+					requiredMessage="Name cannot be null">
+					<f:validator validatorId="stringValidator" />
+				</p:inputText>
+				<p:commandButton id="helpSubjectName" icon="ui-icon-help" />
+				<p:message for="subjectName" />
+
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif;"
+					value="Subject Description: " />
+				<p:inputTextarea rows="3" autoResize="false"
+					styleClass="policysetinputstyle" id="subjectDescription"
+					value="#{addSubjectController.description}" required="true"
+					requiredMessage="Description cannot be null">
+				</p:inputTextarea>
+				<p:commandButton id="helpSubjectDescription" icon="ui-icon-help"
+					type="button" />
+				<p:message for="subjectDescription" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif;"
+					value="Subject Category: " />
+				<p:selectOneMenu styleClass="policysetinputstyle1"
+					id="subjectCategory"
+					value="#{addSubjectController.selectedCategory}" required="true"
+					requiredMessage="Select Subject Category" style="width: 233px">
+					<f:ajax event="change" execute="@this" />
+					<f:selectItems value="#{addSubjectController.categoryList}"
+						var="cat" itemLabel="#{cat}" itemValue="#{cat}" />
+				</p:selectOneMenu>
+				<p:commandButton id="helpSubjectCategory" icon="ui-icon-help"
+					type="button" />
+				<p:message for="subjectCategory" />
+			</p:panelGrid>
+
+			<pe:tooltip for="subjectName" value="Enter the subject name here."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="subjectDescription"
+				value="Enter the subject description here." showEffect="slideToggle"
+				hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+				myPosition="left center" atPosition="right center" />
+
+			<pe:tooltip for="subjectCategory"
+				value="Select the subject category here." showEffect="slideToggle"
+				hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+				myPosition="left center" atPosition="right center" />
+
+
+			<pe:tooltip for="helpSubjectName"
+				value="Entity requesting the access should be entered here. Like Faculty,Student,Staff,TA etc"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpSubjectDescription"
+				value="Description regarding Entity requesting the access should be entered here"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpSubjectCategory"
+				value="Category of Entity requesting the access should be entered here. Like Access Subject etc."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<br />
+			<p:panelGrid styleClass="tableWidthStyleSystem" columns="2"
+				style="border-style: hidden !important;">
+				<p:dataTable style="height:150px; width: 450px" id="subjectAttributeDataTable"
+					var="subjectAttribute"
+					value="#{addSubjectController.subjectAttributeList}"
+					rowKey="#{subjectAttribute}"
+					selection="#{addSubjectController.selectedSubjectAttribute}"
+					selectionMode="single" paginator="true" rows="5"
+					paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
+					<p:ajax event="rowSelect"
+						update=":form:subjectAttributeValueDataTable"></p:ajax>
+					<p:column style="width:200px">
+						<f:facet name="header">
+							<div id="c1" style="float: left; margin: 0; width: 50">
+								<h:outputText value="Subject Attributes" />
+							</div>
+							<div style="float: right; margin: 0; width: 50">
+								<p:commandButton icon="ui-icon ui-icon-plusthick"
+									immediate="true" id="addSubjectAttribute"
+									actionListener="#{addSubjectController.addSubjectAttribute}"
+									onclick="PF('ex').show();">
+									<p:ajax event="dialogReturn"
+										update=":form:subjectAttributeDataTable :form:subjectAttributeValueDataTable"></p:ajax>
+								</p:commandButton>
+
+							</div>
+
+						</f:facet>
+						<h:outputText value="#{subjectAttribute.subjAttrId}" />
+					</p:column>
+
+
+
+
+				</p:dataTable>
+				
+
+				<p:dataTable style="height:150px; width: 450px"
+					id="subjectAttributeValueDataTable" var="subjectAttributeValue"
+					rowKey="subjectAttributeValue"
+					value="#{addSubjectController.subjectAttributeValueList}"
+					paginator="true" rows="5"
+					paginatorTemplate="  {PreviousPageLink} {PageLinks} {NextPageLink} "
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
+					<p:column style="width:200px">
+						<f:facet name="header">
+							<div id="c1" style="float: left; margin: 0; width: 50">
+								<h:outputText value="Subject Attribute Values" />
+							</div>
+							<div style="float: right; margin: 0; width: 50">
+								<p:commandButton icon="ui-icon ui-icon-plusthick"
+									immediate="true" id="addSubjectAttributeValue"
+									actionListener="#{addSubjectController.addSubjectAttributeValue}">
+									<p:ajax event="dialogReturn"
+										update=":form:subjectAttributeValueDataTable" />
+								</p:commandButton>
+							</div>
+
+
+
+						</f:facet>
+						<h:outputText value="#{subjectAttributeValue.subAttrValue}" />
+					</p:column>
+
+				</p:dataTable>
+				
+			</p:panelGrid>
+			<pe:tooltip for="subjectAttributeDataTable"
+					value="These are the available subject attributes."
+					showEffect="slideToggle" hideEvent="click mouseleave"
+					hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+					atPosition="top center" />
+			<pe:tooltip for="subjectAttributeValueDataTable"
+					value="These are the available subject attribute values."
+					showEffect="slideToggle" hideEvent="click mouseleave"
+					hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+					atPosition="top center" />
+			<br /> <br /> <br />
+
+			<p:commandButton styleClass="buttonstyle" id="cancelSubject"
+				value="Cancel " action="#{addSubjectController.cancelSubject}"
+				immediate="true" update="form">
+
+			</p:commandButton>
+			<p:commandButton styleClass="buttonstyle" id="saveSubject"
+				value="Save" action="#{addSubjectController.saveSubject}"
+				update="form">
+			</p:commandButton>
+
+			<p:defaultCommand target="saveSubject"></p:defaultCommand>
+		</fieldset>
+
+
+
+	</h:form>
+
+	<p:dialog modal="true" id="dialog1" header="Add Subject Attribute"
+		widgetVar="ex">
+
+		<p:ajax event="close"
+			update=":form:subjectAttributeDataTable :form:subjectAttributeValueDataTable"></p:ajax>
+		<h:form id="form1" style="margin-left:25px">
+			<p:panelGrid id="addNewSubjectAttributePanel" columns="4"
+				style="border-style: hidden !important;">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Attribute Name " />
+				<p:inputText styleClass="dialoginputstyle" id="subjectAttributeName"
+					value="#{addSubjectController.attributeName}" required="true"
+					requiredMessage="Name cannot be null">
+					<f:validator validatorId="stringValidator" />
+				</p:inputText>
+				<p:commandButton id="helpSubjectAttributeName" icon="ui-icon-help"
+					type="button" />
+				<p:message for="subjectAttributeName" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					for="dataType" value="Data Type: " />
+				<p:selectOneListbox style="height:60px" id="dataType"
+					value="#{addSubjectController.selectedDataType}" required="true"
+					requiredMessage="DataType cannot be null">
+					<f:ajax event="change" execute="@this" />
+					<f:selectItems value="#{addSubjectController.dataTypeList}"
+						var="dType" itemLabel="#{dType}" itemValue="#{dType}" />
+				</p:selectOneListbox>
+				<p:commandButton id="helpDataType" icon="ui-icon-help" type="button" />
+				<p:message for="dataType" />
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; "
+					value="Attribute Value " />
+				<p:inputText styleClass="dialoginputstyle"
+					id="subjectAttributeValueOne"
+					value="#{addSubjectController.attributeValueDefault}"
+					required="true" requiredMessage="Attribute Value cannot be null">
+					<f:attribute name="item"
+						value="#{addSubjectController.selectedDataType}" />
+					<f:validator validatorId="dataTypeValidator" />
+				</p:inputText>
+				<p:commandButton id="helpSubjectAttributeValueOne"
+					icon="ui-icon-help" type="button" />
+				<p:message for="subjectAttributeValueOne" />
+			</p:panelGrid>
+
+			<pe:tooltip for="helpSubjectAttributeName"
+				value="Name of Subject attribute. Like Faculty is subject that can have Name, 
+				Designation etc as attributes"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpDataType"
+				value="Data Type of attribute. Like String, Integer etc"
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="helpSubjectAttributeValueOne"
+				value="Value of Subject attribute. Like Faculty has attribute Name with Value 
+				John and Designation attrbiute as Professor etc."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+			<br />
+
+			<p:commandButton styleClass="buttonstyle" id="cancelSubjectAttribute"
+				value="Cancel "
+				action="#{addSubjectController.cancelAddSubjectAttribute}"
+				immediate="true" update=" form1">
+				<p:resetInput target=" form1" />
+			</p:commandButton>
+		
+			&nbsp;
+	
+			
+			<p:commandButton styleClass="buttonstyle" id="saveSubjectAttribute"
+				value="Save "
+				action="#{addSubjectController.saveAddSubjectAttribute}"
+				update=" form1">
+
+			</p:commandButton>
+			<p:defaultCommand target="saveSubjectAttribute"></p:defaultCommand>
+		</h:form>
+
+	</p:dialog>
+
+
+
+	<p:dialog modal="true" id="dialog2"
+		header="Add Subject Attribute Value" widgetVar="ex1">
+
+		<p:ajax event="close"
+			update=":form:subjectAttributeDataTable :form:subjectAttributeValueDataTable"></p:ajax>
+
+
+		<h:form id="form2" style="margin-left:25px">
+			<h:panelGrid id="addSubjectAttributeValuePanel" columns="4"
+				style="border-style: hidden !important;">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Attribute Value " />
+				<p:inputText id="subjectAttributeValue"
+					value="#{addSubjectController.attributeValue}" required="true"
+					requiredMessage="Attribute Value cannot be null">
+					<f:attribute name="item"
+						value="#{addSubjectController.selectedSubjectAttribute.dataType}" />
+					<f:validator validatorId="dataTypeValidator" />
+				</p:inputText>
+				<p:commandButton id="helpSubjectAttributeValue" icon="ui-icon-help"
+					type="button" />
+				<p:message for="subjectAttributeValue" />
+
+			</h:panelGrid>
+			<pe:tooltip for="helpSubjectAttributeValue"
+				value="Value of Subject attribute. Like Faculty has attribute Name with Value 
+				John and Designation attrbiute as Professor etc."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+			<br />
+
+			<p:commandButton styleClass="buttonstyle"
+				id="cancelSubjectAttributeValue" value="Cancel "
+				action="#{addSubjectController.cancelAddSubjectAttributeValue}"
+				immediate="true" update=" form2">
+				<p:resetInput target=" form2" />
+			</p:commandButton>
+		
+			&nbsp;
+		
+			
+			<p:commandButton styleClass="buttonstyle"
+				id="saveSubjectAttributeValue" value="Save "
+				action="#{addSubjectController.saveAddSubjectAttributeValue}"
+				update=" form2" />
+			<p:defaultCommand target="saveSubjectAttributeValue"></p:defaultCommand>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

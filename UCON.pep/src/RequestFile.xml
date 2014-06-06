@@ -1,0 +1,10 @@
+<Request>
+<Subject SubjectCategory="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject">
+<Attribute AttributeId="ad" DataType="http://www.w3.org/2001/XMLSchema#string"><AttributeValue>true</AttributeValue></Attribute>
+<Attribute AttributeId="user-id" DataType="http://www.w3.org/2001/XMLSchema#string"><AttributeValue>2</AttributeValue></Attribute>
+</Subject>
+<Resource/>
+<Action/>
+<Environment>
+</Environment>
+</Request>

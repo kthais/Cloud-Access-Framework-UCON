@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+<session-factory>
+<!-- Database connection settings -->
+<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/accesscontroldb</property>
+   <property name="connection.username">root</property>
+   <property name="connection.password">root</property>
+ 
+<!-- JDBC connection pool (use the built-in) -->
+<property name="hibernate.connection.pool_size">1</property>
+ 
+<!-- SQL dialect -->
+<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+ 
+<!-- Enable Hibernate's automatic session context management -->
+<property name="hibernate.current_session_context_class">thread</property>
+ 
+<!-- Disable the second-level cache -->
+<property name="hibernate.cache.provider_class">org.hibernate.cache.internal.NoCacheProvider
+</property>
+<property name="current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
+ 
+<!-- Echo all executed SQL to stdout -->
+<property name="hibernate.show_sql">true</property>
+ 
+<!-- Update the changes to the database schema on startup -->
+<property name="hibernate.hbm2ddl.auto">update</property>
+<!--  <property name="hbm2ddl.auto">create</property> -->
+
+<mapping package="com.aislab.accesscontrol.core.entities"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Action"/>
+<mapping class="com.aislab.accesscontrol.core.entities.ActionAttribute"/>
+<mapping class="com.aislab.accesscontrol.core.entities.ActionMatch"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Actions"/>
+<mapping class="com.aislab.accesscontrol.core.entities.ActAttrValues"/>
+<mapping class="com.aislab.accesscontrol.core.entities.AttributeValue"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Subject"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Subjects"/>
+<mapping class="com.aislab.accesscontrol.core.entities.SubjectMatch"/>
+<mapping class="com.aislab.accesscontrol.core.entities.SubjectAttribute"/>
+<mapping class="com.aislab.accesscontrol.core.entities.SubAttrValues"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Environment"/>
+<mapping class="com.aislab.accesscontrol.core.entities.EnvironmentAttribute"/>
+<mapping class="com.aislab.accesscontrol.core.entities.EnvironmentMatch"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Environments"/>
+<mapping class="com.aislab.accesscontrol.core.entities.EnvAttrValues"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Resource"/>
+<mapping class="com.aislab.accesscontrol.core.entities.ResourceAttribute"/>
+<mapping class="com.aislab.accesscontrol.core.entities.ResourceMatch"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Resources"/>
+<mapping class="com.aislab.accesscontrol.core.entities.ResAttrValues"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Target"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Policy"/>
+<mapping class="com.aislab.accesscontrol.core.entities.PolicySet"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Rule"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Condition"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Apply"/>
+<mapping class="com.aislab.accesscontrol.core.entities.AttributeAssignment"/>
+<mapping class="com.aislab.accesscontrol.core.entities.AttributeDesignator"/>
+<mapping class="com.aislab.accesscontrol.core.entities.AttributeSelector"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Expression"/>
+<mapping class="com.aislab.accesscontrol.core.entities.Obligations"/>
+<mapping class="com.aislab.accesscontrol.core.entities.VarDef"/>
+<mapping class="com.aislab.accesscontrol.core.entities.VarRef"/>
+</session-factory> 
+</hibernate-configuration>

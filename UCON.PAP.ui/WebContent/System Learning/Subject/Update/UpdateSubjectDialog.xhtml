@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Update Subject</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:panelGrid id="updateSubjectPanel" columns="4"
+			style="border-style: hidden !important;">
+
+			<h:outputLabel
+				style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+				value="Subject Name " />
+			<p:inputText styleClass="updatesubjectstyle" id="subjectName"
+				value="#{subjectController.selectedSubject.subjectName}"
+				required="true" requiredMessage="Name cannot be null">
+				<f:validator validatorId="stringValidator" />
+			</p:inputText>
+			<p:commandButton id="helpUpdateSubjectName" icon="ui-icon-help"
+				type="button" />
+			<p:message for="subjectName" />
+			<h:outputLabel
+				style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+				value="Subject Description " />
+			<p:inputTextarea styleClass="updatesubjectstyle" rows="3"
+				autoResize="false" id="subjectDescription"
+				value="#{subjectController.selectedSubject.description}"
+				required="true" requiredMessage="Description cannot be null">
+			</p:inputTextarea>
+			<p:commandButton id="helpUpdateSubjectDescription" icon="ui-icon-help"
+				type="button" />
+			<p:message for="subjectDescription" />
+
+			<h:outputLabel
+				style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+				value="Subject Category: " />
+			<p:selectOneListbox style="width: 140px; height:60px"
+				id="subjectCategory"
+				value="#{subjectController.selectedSubject.subjectCategory}"
+				required="true" requiredMessage="Subject Category cannot be null">
+				<f:ajax event="change" execute="@this" />
+				<f:selectItems value="#{subjectController.categoryList}" var="cat"
+					itemLabel="#{cat}" itemValue="#{cat}" />
+			</p:selectOneListbox>
+			<p:commandButton id="helpUpdateSubjectCatagory" icon="ui-icon-help"
+				type="button" />
+			<p:message for="subjectCategory" />
+		</p:panelGrid>
+		<br />
+
+		<p:commandButton styleClass="buttonstyle" id="cancelUpdateSubject"
+			value="Cancel " action="#{subjectController.cancelUpdateSubject}"
+			immediate="true" update="form" />
+
+		<p:commandButton styleClass="buttonstyle" id="saveUpdateSubject"
+			value="Save " actionListener="#{subjectController.saveUpdateSubject}"
+			update="form" />
+
+		<p:defaultCommand target="saveUpdateSubject"></p:defaultCommand>
+	</h:form>
+</h:body>
+</html>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

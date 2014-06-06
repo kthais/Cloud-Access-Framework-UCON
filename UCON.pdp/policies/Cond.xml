@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyId="Condurnon132" Version="2.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>Cond</Description>
+    <Target>
+        <Environments>
+            <Environment>
+                <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-greater-than-or-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">17</AttributeValue>
+                    <EnvironmentAttributeDesignator AttributeId="time" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true"/>
+                </EnvironmentMatch>
+            </Environment>
+        </Environments>
+    </Target>
+    <Rule RuleId="Condurn:on:1:3:2" Effect="Permit">
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-less-than-or-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                        <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time" DataType="http://www.w3.org/2001/XMLSchema#time" MustBePresent="false"/>
+                    </Apply>
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">17:00:00</AttributeValue>
+                    
+                </Apply>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-greater-than-or-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                        <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time" DataType="http://www.w3.org/2001/XMLSchema#time" MustBePresent="false"/>
+                    </Apply>
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">09:00:00</AttributeValue>
+                    
+                </Apply>
+            </Apply>
+        </Condition>
+    </Rule>
+    <Obligations>
+        <Obligation ObligationId="urn:xacml:ucon:on" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="request_interval" DataType="http://www.w3.org/2001/XMLSchema#string">15</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:preUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="update_startTime" DataType="http://www.w3.org/2001/XMLSchema#string">update</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:onGoingUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="update_Time" DataType="http://www.w3.org/2001/XMLSchema#string">updating</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:postUpdate" FulfillOn="Deny">
+            <AttributeAssignment AttributeId="update_usageTime" DataType="http://www.w3.org/2001/XMLSchema#string">updated</AttributeAssignment>
+        </Obligation>
+    </Obligations>
+</Policy>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://pep.ucon.jboss.accesscontrol.aislab.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://pep.ucon.jboss.accesscontrol.aislab.com" xmlns:intf="http://pep.ucon.jboss.accesscontrol.aislab.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://pep.ucon.jboss.accesscontrol.aislab.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="getAccessDecision">
+    <complexType>
+     <sequence>
+      <element name="jsonRequest" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAccessDecisionResponse">
+    <complexType>
+     <sequence>
+      <element name="getAccessDecisionReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="helloPEP">
+    <complexType/>
+   </element>
+   <element name="helloPEPResponse">
+    <complexType>
+     <sequence>
+      <element name="helloPEPReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="postUser">
+    <complexType>
+     <sequence>
+      <element name="uid" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="postUserResponse">
+    <complexType>
+     <sequence>
+      <element name="postUserReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="postUserResponse">
+
+      <wsdl:part element="impl:postUserResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAccessDecisionResponse">
+
+      <wsdl:part element="impl:getAccessDecisionResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAccessDecisionRequest">
+
+      <wsdl:part element="impl:getAccessDecision" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="postUserRequest">
+
+      <wsdl:part element="impl:postUser" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="helloPEPResponse">
+
+      <wsdl:part element="impl:helloPEPResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="helloPEPRequest">
+
+      <wsdl:part element="impl:helloPEP" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="UCONPEP">
+
+      <wsdl:operation name="getAccessDecision">
+
+         <wsdl:input message="impl:getAccessDecisionRequest" name="getAccessDecisionRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAccessDecisionResponse" name="getAccessDecisionResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="helloPEP">
+
+         <wsdl:input message="impl:helloPEPRequest" name="helloPEPRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:helloPEPResponse" name="helloPEPResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="postUser">
+
+         <wsdl:input message="impl:postUserRequest" name="postUserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:postUserResponse" name="postUserResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="UCONPEPSoapBinding" type="impl:UCONPEP">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getAccessDecision">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAccessDecisionRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAccessDecisionResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="helloPEP">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="helloPEPRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="helloPEPResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="postUser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="postUserRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="postUserResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="UCONPEPService">
+
+      <wsdl:port binding="impl:UCONPEPSoapBinding" name="UCONPEP">
+
+         <wsdlsoap:address location="http://localhost:8080/com.aislab.accesscontrol.jboss.ucon.pep/services/UCONPEP"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

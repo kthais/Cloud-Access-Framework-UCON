@@ -1,0 +1,257 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:head>
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=ISO-8859-1" />
+		<title>Policy Set</title>
+		<f:facet name="last">
+			<link rel="stylesheet" type="text/css"
+				href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+		</f:facet>
+	</h:head>
+
+	<fieldset>
+		<legend
+			style="font-size: 20px; font-weight: bold; background: #eeeeee;">PolicySet</legend>
+		<br />
+		<p:growl id="growlPolicySet" showDetail="true" autoUpdate="true"
+			globalOnly="true" />
+
+		<p:dataTable id="allPolicySets" var="pset"
+			value="#{policySetController.allPolicySet}"
+			rowKey="#{pset.pkPolicySet}"
+			selection="#{policySetController.selectedPolicySet}"
+			selectionMode="single" scrollable="true" scrollWidth="98%"
+			scrollHeight="150" style="width:820px">
+			<p:ajax event="rowSelect"
+				update=" :form:availablePolicySets :form:availablePolicies  " />
+			<p:ajax event="contextMenu" />
+			<p:ajax event="rowUnselect"
+				listener="#{policySetController.onPolicySetUnSelect}"
+				update="  :form:availablePolicySets :form:availablePolicies " />
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="PolicySet" />
+				</f:facet>
+				<h:outputText value="#{pset.policySetId}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="Policy Combining Algorithm" />
+				</f:facet>
+				<h:outputText value="#{pset.policyCombiningAlgo}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="Applicable Targets" />
+				</f:facet>
+				<h:outputText
+					value="#{policySetController.getPSetTarget(pset.pkPolicySet)}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputText style="float:left" value="Description" />
+				</f:facet>
+				<h:outputText value="#{pset.description}" />
+			</p:column>
+		</p:dataTable>
+		<pe:tooltip for="allPolicySets"
+			value="These are the available policy sets." showEffect="slideToggle"
+			hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+			myPosition="bottom center" atPosition="top center" />
+		<br /> <br />
+
+		<h:panelGrid styleClass="tableWidthStyle" columns="2">
+			<p:dataTable id="availablePolicySets" var="pset"
+				value="#{policySetController.availablePolicySets}"
+				rowKey="#{pset.pkPolicySet}"
+				selection="#{policySetController.selectedSubPolicySet}"
+				selectionMode="single" scrollable="true" scrollWidth="100%"
+				scrollHeight="150" style="width:570px">
+				<p:ajax event="contextMenu" />
+
+				<p:column style="width:200px">
+					<f:facet name="header">
+						<div style="float: left; margin: 0; width: 50">
+							<h:outputText value="Applicable Policy Sets" />
+						</div>
+						<div style="float: right; margin: 0; width: 50">
+							<p:commandButton id="addSubPolicySetButton"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{policySetController.updateSubPolicySet}"
+								disabled="#{policySetController.attrbtn}">
+								<p:ajax event="dialogReturn"
+									update=":form:availablePolicySets :form:growlPolicySet"
+									listener="#{policySetController.showAddMessage}" />
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText value="#{pset.description}" />
+				</p:column>
+			</p:dataTable>
+			
+
+			<p:dataTable id="availablePolicies" var="pset"
+				value="#{policySetController.availablePolicies}"
+				rowKey="#{pset.pkPolicy}"
+				selection="#{policySetController.selectedSubPolicy}"
+				selectionMode="single" scrollable="true" scrollWidth="100%"
+				scrollHeight="150" style="width:570px">
+				<p:ajax event="contextMenu" />
+
+
+				<p:column style="width:200px">
+					<f:facet name="header">
+						<div style="float: left; margin: 0; width: 50">
+							<h:outputText value="Applicable Policies" />
+						</div>
+						<div style="float: right; margin: 0; width: 50">
+							<p:commandButton id="addSubPolicyButton"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{policySetController.updateSubPolicies}"
+								disabled="#{policySetController.attrbtn}">
+								<p:ajax event="dialogReturn"
+									update=":form:availablePolicies :form:growlPolicySet"
+									listener="#{policySetController.showAddMessage}" />
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText value="#{pset.description}" />
+				</p:column>
+
+
+
+
+
+			</p:dataTable>
+			
+
+		</h:panelGrid>
+		<pe:tooltip for="availablePolicySets"
+			value="These are the applicable policy sets."
+			showEffect="slideToggle" hideEvent="click mouseleave"
+			hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+			atPosition="top center" />
+		<pe:tooltip for="availablePolicies"
+			value="These are the applicable policies." showEffect="slideToggle"
+			hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+			myPosition="bottom center" atPosition="top center" />
+		<br />
+		<p:commandButton style="float:right;" id="addPolicySetButton"
+			value="Add PolicySet" action="#{policySetController.addPolicySet}">
+			<p:ajax event="dialogReturn"
+				update=" :form:allPolicySets :form:availablePolicySets :form:availablePolicies :form:growlPolicySet"
+				listener="#{addPolicySetController.showAddMessage}" />
+		</p:commandButton>
+	</fieldset>
+
+
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+		<p:commandButton value="Yes" type="button"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+
+
+	<p:contextMenu id="contextMenu" for="allPolicySets">
+		<p:menuitem value="Update"
+			onclick="triggerHiddenEvent('updatePolicySet'); return false;" />
+		<p:menuitem id="deletePolicySet" value="Delete"
+			onclick="triggerHiddenEvent('deletePolicySet'); return false;" />
+	</p:contextMenu>
+	<p:contextMenu id="SubPolicySetContextMenu" for="availablePolicySets">
+		<p:menuitem id="deleteSubPolicySet" value="Delete"
+			onclick="triggerHiddenEvent('deleteSubPolicySet'); return false;" />
+	</p:contextMenu>
+	<p:contextMenu id="SubPolicyContextMenu" for="availablePolicies">
+		<p:menuitem id="deleteSubPolicies" value="Delete"
+			onclick="triggerHiddenEvent('deleteSubPolicies'); return false;" />
+	</p:contextMenu>
+
+
+
+	<p:commandButton id="deletePolicySetCommand" styleClass="button"
+		style="display:none"
+		action="#{policySetController.deleteThisPolicySet}"
+		update=":form:allPolicySets :form:availablePolicySets :form:availablePolicies :form:growlPolicySet">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+	<p:commandButton id="deleteSubPolicySetCommand" styleClass="button"
+		style="display:none"
+		action="#{policySetController.deleteSubPolicySet}"
+		update=":form:allPolicySets :form:availablePolicySets :form:growlPolicySet">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+	<p:commandButton id="deleteSubPoliciesCommand" styleClass="button"
+		style="display:none" action="#{policySetController.deleteSubPolicies}"
+		update=":form:allPolicySets :form:availablePolicies :form:growlPolicySet">
+		<p:confirm header="Confirmation"
+			message="Are you sure you want to delete?" icon="ui-icon-alert" />
+	</p:commandButton>
+
+	<p:commandButton id="updatePolicySetCommand" styleClass="button"
+		style="display:none" action="#{policySetController.updatePolicySet}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			update=":form:allPolicySets :form:growlPolicySet"
+			listener="#{policySetController.showUpdateMessage}" />
+	</p:commandButton>
+
+	<p:commandButton id="updateSubPolicySetCommand" styleClass="button"
+		style="display:none"
+		action="#{policySetController.updateSubPolicySet}" immediate="true">
+		<p:ajax event="dialogReturn"
+			update=":form:availablePolicySets :form:growlPolicySet"
+			listener="#{policySetController.showUpdateMessage}" />
+	</p:commandButton>
+	<p:commandButton id="updateSubPoliciesCommand" styleClass="button"
+		style="display:none" action="#{policySetController.updateSubPolicies}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			update=":form:availablePolicies :form:growlPolicySet"
+			listener="#{policySetController.showUpdateMessage}" />
+	</p:commandButton>
+	<p:commandButton id="updatePSetTargetCommand" styleClass="button"
+		style="display:none"
+		action="#{policySetController.updatePSetTargetDialog}"
+		immediate="true">
+		<p:ajax event="dialogReturn"
+			update=":form:growlPolicySet :form:allPolicySets"
+			listener="#{policySetController.showUpdateMessage}" />
+	</p:commandButton>
+	<h:outputScript>
+	function triggerHiddenEvent( id) {
+    document.getElementById("form:"+id+"Command").click();
+    console.log('its called '+id);
+  }
+  </h:outputScript>
+</ui:composition>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

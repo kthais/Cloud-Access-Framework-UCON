@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyId="newUconurn:pre:on:1:3111:2" Version="2.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>abcdefghij</Description>
+    <Target>
+              <Subjects>
+        <Subject>
+          <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+     <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">true</AttributeValue>
+      <SubjectAttributeDesignator AttributeId="agreement" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true" />
+         </SubjectMatch>
+        </Subject>
+      </Subjects>
+        </Target>
+            <Rule RuleId="anothernewUconurn:pre:on:1:3:233" Effect="Permit">
+        <Target/>
+    <Condition >
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+        <SubjectAttributeDesignator AttributeId="agreement" DataType="http://www.w3.org/2001/XMLSchema#string" />
+      </Apply>
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">true</AttributeValue>
+   </Apply>
+      </Condition>
+        </Rule>
+            <Obligations>
+        <Obligation ObligationId="urn:xacml:ucon:postUpdate" FulfillOn="Deny">
+            <AttributeAssignment AttributeId="update_usageTime" DataType="http://www.w3.org/2001/XMLSchema#string">update</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:preUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="update_startTime" DataType="http://www.w3.org/2001/XMLSchema#string">Time Update</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:onGoingUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="update_Time" DataType="http://www.w3.org/2001/XMLSchema#string">acvd</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:on" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="request_interval" DataType="http://www.w3.org/2001/XMLSchema#string">15</AttributeAssignment>
+        </Obligation>
+    </Obligations>
+        </Policy>

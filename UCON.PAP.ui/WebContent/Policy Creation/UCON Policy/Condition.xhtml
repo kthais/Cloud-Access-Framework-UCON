@@ -1,0 +1,359 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<h:head>
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=ISO-8859-1" />
+		<title>Authorization And Condition</title>
+		<f:facet name="last">
+			<link rel="stylesheet" type="text/css"
+				href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+		</f:facet>
+	</h:head>
+	<fieldset>
+		<legend
+			style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Authoriation</legend>
+		<p:growl id="growlTarget" showDetail="true" autoUpdate="true"
+			globalOnly="true" />
+
+		<br />
+
+		<p:dataTable id="targetDataTable" var="tar"
+			value="#{targetController.allTarget}" rowKey="#{tar.pkTarget}"
+			selection="#{targetController.clickedTarget}" selectionMode="single"
+			scrollable="true" scrollHeight="150">
+			<p:ajax event="rowSelect"
+				listener="#{targetController.onTargetSelected}"
+				update=":form:targSubject :form:targResource :form:targAction :form:targEnvironment" />
+			<p:ajax event="contextMenu"
+				listener="#{targetController.onTargetSelected}"
+				update=":form:targSubject :form:targResource :form:targAction :form:targEnvironment" />
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Authorization" />
+				</f:facet>
+				<h:outputText value="#{tar.targetId}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Authorization Description" />
+				</f:facet>
+				<h:outputText value="#{tar.description}" />
+			</p:column>
+		</p:dataTable>
+		<pe:tooltip for="targetDataTable"
+			value="These are the available targets." showEffect="slideToggle"
+			hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+			myPosition="bottom center" atPosition="top center" />
+		<h:panelGrid columns="8" style="border-style: hidden !important; ">
+			<p:dataTable id="targSubject" var="tar"
+				value="#{targetController.allTargSubjects}"
+				rowKey="#{tar.pkSubjects}"
+				selection="#{targetController.selectedSubjects}"
+				selectionMode="single" scrollable="true" scrollHeight="150"
+				resizableColumns="true">
+				<p:ajax event="rowSelect" />
+				<p:ajax event="contextMenu" />
+				<p:column style="width:340px">
+
+					<f:facet name="header">
+						<div style="float: left; margin: 0; width: 50">
+							<h:outputText value="Available Subjects" />
+						</div>
+						<div style="float: right; margin: 0; width: 50">
+							<p:commandButton id="addSubjectCommand"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{targetController.updateTargetSubjectByDialog}"
+								disabled="#{targetController.addbtn}">
+								<p:ajax event="dialogReturn"
+									listener="#{targetController.showAddMessage}"
+									update=":form:targSubject :form:growlTarget" />
+							</p:commandButton>
+
+						</div>
+					</f:facet>
+					<h:outputText value="#{targetController.getMatchIdAndValueS(tar)}" />
+				</p:column>
+			</p:dataTable>
+			<pe:tooltip for="targSubject"
+				value="These are the available target subjects."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+
+			<p:dataTable id="targResource" var="tarRes"
+				value="#{targetController.allTargResources}"
+				rowKey="#{tarRes.pkResources}"
+				selection="#{targetController.selectedResources}"
+				selectionMode="single" scrollable="true" scrollHeight="150"
+				resizableColumns="true">
+				<p:ajax event="rowSelect" />
+				<p:ajax event="contextMenu" />
+				<p:column style="width:200px">
+					<f:facet name="header">
+						<div id="c2" style="float: left; margin: 0; width: 50">
+							<h:outputText value="Available Resources" />
+						</div>
+						<div id="c2" style="float: right; margin: 0; width: 50">
+							<p:commandButton id="addResourceCommand"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{targetController.updateTargetResourceByDialog}"
+								disabled="#{targetController.addbtn}">
+								<p:ajax event="dialogReturn"
+									listener="#{targetController.showAddMessage}"
+									update=":form:targResource :form:growlTarget" />
+
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText
+						value="#{targetController.getMatchIdAndValueR(tarRes)}" />
+				</p:column>
+			</p:dataTable>
+			<pe:tooltip for="targResource"
+				value="These are the available target resources."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+
+
+			<p:dataTable id="targAction" var="tarAct"
+				value="#{targetController.allTargActions}"
+				rowKey="#{tarAct.pkActions}"
+				selection="#{targetController.selectedActions}"
+				selectionMode="single" scrollable="true" scrollHeight="150"
+				resizableColumns="true">
+				<p:ajax event="rowSelect" />
+				<p:ajax event="contextMenu" />
+				<p:column style="width:200px">
+					<f:facet name="header">
+						<div id="c2" style="float: left; margin: 0; width: 50">
+							<h:outputText value="Available Actions" />
+						</div>
+						<div id="c2" style="float: right; margin: 0; width: 50">
+							<p:commandButton id="addActionCommand"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{targetController.updateTargetActionByDialog}"
+								disabled="#{targetController.addbtn}">
+								<p:ajax event="dialogReturn"
+									listener="#{targetController.showAddMessage}"
+									update=":form:targAction :form:growlTarget" />
+
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText
+						value="#{targetController.getMatchIdAndValueA(tarAct)}" />
+				</p:column>
+			</p:dataTable>
+			<pe:tooltip for="targAction"
+				value="These are the available target actions."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+
+
+			<pe:tooltip for="targEnvironment"
+				value="These are the available target environments."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+				atPosition="top center" />
+		</h:panelGrid>
+ 	<fieldset> 
+		<p:panelGrid columns="1">
+			<legend
+			style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Condition</legend>
+		<p:growl id="growlTarget2" showDetail="true" autoUpdate="true"
+			globalOnly="true" />
+						<p:dataTable id="targEnvironment" var="tarEnv"
+				value="#{targetController.allTargEnvironments}"
+				rowKey="#{tarEnv.pkEnvironments}"
+				selection="#{targetController.selectedEnvironments}"
+				selectionMode="single" scrollable="true" scrollHeight="150"
+				resizableColumns="true">
+				<p:ajax event="rowSelect" />
+				<p:ajax event="contextMenu" />
+				<p:column style="width:200px">
+					<f:facet name="header">
+						<div id="c2" style="float: left; margin: 0; width: 50">
+							<h:outputText value="Available Conditions" />
+						</div>
+						<div id="c2" style="float: right; margin: 0; width: 50">
+							<p:commandButton id="addEnvironmentCommand"
+								icon="ui-icon ui-icon-plusthick" immediate="true"
+								action="#{targetController.updateTargetEnvironmentByDialog}"
+								disabled="#{targetController.addbtn}">
+								<p:ajax event="dialogReturn"
+									listener="#{targetController.showAddMessage}"
+									update=":form:targEnvironment :form:growlTarget" />
+
+							</p:commandButton>
+						</div>
+					</f:facet>
+					<h:outputText
+						value="#{targetController.getMatchIdAndValueE(tarEnv)}" />
+				</p:column>
+			</p:dataTable>
+</p:panelGrid>
+</fieldset>
+
+		<p:commandButton style="float:right;" id="addTargetButton"
+			value="Add Authorization" immediate="true"
+			action="#{targetController.addTarget}" update=":form:growlTarget">
+			<p:ajax event="dialogReturn"
+				update=":form:targetDataTable :form:targEnvironment :form:targSubject :form:targAction :form:targResource :form:growlTarget"
+				listener="#{addTargetController.showAddTarget}" />
+		</p:commandButton>
+
+
+		<p:contextMenu id="contextMenuEnvironments"
+			for=":form:targEnvironment">
+			<p:menuitem value="Delete"
+				action="#{targetController.deleteEnvironment}"
+				update=":form:targEnvironment :form:growlTarget" immediate="true" />
+		</p:contextMenu>
+		<p:contextMenu id="contextMenuResources" for=":form:targResource">
+			<p:menuitem value="Delete"
+				action="#{targetController.deleteResource}"
+				update=":form:targResource :form:growlTarget" immediate="true" />
+		</p:contextMenu>
+		<p:contextMenu id="contextMenuActions" for=":form:targAction">
+			<p:menuitem value="Delete" action="#{targetController.deleteAction}"
+				update=":form:targAction :form:growlTarget" immediate="true" />
+		</p:contextMenu>
+
+		<p:contextMenu id="contextMenu" for=":form:targSubject">
+			<p:menuitem value="Delete" action="#{targetController.deleteSubject}"
+				update=":form:targSubject :form:growlTarget" immediate="true" />
+		</p:contextMenu>
+		<p:contextMenu id="contextMenuSubjects" for=":form:targetDataTable">
+			<p:menuitem id="updateTarget" value="Update Target"
+				onclick="triggerHiddenEvent('updateTarget'); return false;" />
+
+
+			<p:menuitem value="Delete" action="#{targetController.deleteTarget}"
+				update=":form:targetDataTable :form:targEnvironment :form:targSubject :form:targAction :form:targResource :form:growlTarget"
+				immediate="true" />
+		</p:contextMenu>
+		<p:commandButton id="updateTargetCommand" styleClass="button"
+			style="display:none"
+			action="#{targetController.updateTargetByDialog}" immediate="true">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showUpdateMessage}"
+				update=":form:targetDataTable" />
+		</p:commandButton>
+		<p:commandButton id="updateSubjectCommand" styleClass="button"
+			style="display:none"
+			action="#{targetController.updateTargetSubjectByDialog}"
+			immediate="true">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showUpdateMessage}"
+				update=":form:targSubject" />
+		</p:commandButton>
+
+		<p:commandButton id="updateResourceCommand" styleClass="button"
+			style="display:none"
+			action="#{targetController.updateTargetResourceByDialog}"
+			immediate="true">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showUpdateMessage}"
+				update=":form:targResource" />
+		</p:commandButton>
+		<p:commandButton id="updateActionCommand" styleClass="button"
+			style="display:none"
+			action="#{targetController.updateTargetActionByDialog}"
+			immediate="true">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showUpdateMessage}"
+				update=":form:targAction" />
+		</p:commandButton>
+
+		<p:commandButton id="updateEnvironmentCommand" styleClass="button"
+			style="display:none"
+			action="#{targetController.updateTargetEnvironmentByDialog}">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showUpdateMessage}"
+				update=":form:targEnvironment" />
+		</p:commandButton>
+
+
+		<p:commandButton id="addTargetCommand" styleClass="button"
+			style="display:none" action="#{targetController.addTargetByDialog}"
+			immediate="true">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showAddMessage}"
+				update=":form:targetDataTable" />
+		</p:commandButton>
+		<p:commandButton id="addSubjectCommand" styleClass="button"
+			style="display:none"
+			action="#{targetController.addTargetSubjectByDialog}"
+			immediate="true">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showAddMessage}"
+				update=":form:targSubject" />
+		</p:commandButton>
+
+		<p:commandButton id="addResourceCommand" styleClass="button"
+			style="display:none"
+			action="#{targetController.addTargetResourceByDialog}"
+			immediate="true">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showAddMessage}"
+				update=":form:targResource" />
+		</p:commandButton>
+		<p:commandButton id="addActionCommand" styleClass="button"
+			style="display:none"
+			action="#{targetController.addTargetActionByDialog}" immediate="true">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showAddMessage}"
+				update=":form:targAction" />
+		</p:commandButton>
+
+		<p:commandButton id="addEnvironmentCommand" styleClass="button"
+			style="display:none"
+			action="#{targetController.addTargetEnvironmentByDialog}">
+			<p:ajax event="dialogReturn"
+				listener="#{targetController.showAddMessage}"
+				update=":form:targEnvironment" />
+		</p:commandButton>
+	</fieldset>
+	<h:outputScript>
+	function triggerHiddenEvent( id) {
+    document.getElementById("form:"+id+"Command").click();
+    console.log('its called '+id);
+  }
+  </h:outputScript>
+	<script>
+		/*   //Get the scrollheight
+		     var s = jQuery('#targetDataTable.ui-datatable-scrollable-body').prop('scrollHeight');
+
+		     //Get total size of datatable
+		     var o = jQuery('#targetDataTable.ui-datatable-scrollable-body').prop('offsetHeight');
+
+		     //calculate how many times it can scrolldown to set your timer
+		     var t = Math.ceil(s/o);
+		     //Excute scrolldown animation (max scrolldown is  scrollHeight - offsetHeight)
+		     $('#targetDataTable.ui-datatable-scrollable-body').animate({scrollTop:s-0}, t*1000);  */
+	</script>
+</ui:composition>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Add New Subject</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:wizard flowListener="#{targetController.onFlowProcess}">
+			<p:tab id="sValue" title="Subject Value">
+				<p:panelGrid columns="3"
+					style="border-style: hidden !important; width:1000px">
+					<p:dataTable id="subjectDataTable" var="subjectDataTable"
+						value="#{targetController.targetSubjects}"
+						rowKey="#{subjectDataTable.subjectName}"
+						selection="#{targetController.selectedSubject}"
+						selectionMode="single" scrollable="true" scrollHeight="150"
+						scrollWidth="340px">
+
+						<p:ajax event="rowSelect"
+							update=":form:subjectAttributeDataTable :form:subjectAttributeValueDataTable "></p:ajax>
+						<p:column style="width:200px">
+							<f:facet name="header">
+								<h:outputText value="Description" />
+							</f:facet>
+							<h:outputText value="#{subjectDataTable.description}" />
+						</p:column>
+					</p:dataTable>
+
+
+					<p:dataTable id="subjectAttributeDataTable"
+						var="subjectAttributeDataTable"
+						value="#{targetController.allSubAttributes}"
+						rowKey="#{subjectAttributeDataTable.pkSubAttr}"
+						selection="#{targetController.selectedSubjectAttributes}"
+						selectionMode="single" scrollable="true" scrollHeight="150"
+						resizableColumns="true" scrollWidth="320px">
+						<p:ajax event="rowSelect"
+							update=":form:subjectAttributeValueDataTable"></p:ajax>
+
+						<p:column style="width:200px">
+							<f:facet name="header">
+								<h:outputText value="Subject Attributes" />
+							</f:facet>
+							<h:outputText value="#{subjectAttributeDataTable.subjAttrId}" />
+						</p:column>
+					</p:dataTable>
+
+					<p:dataTable id="subjectAttributeValueDataTable"
+						var="subjectAttributeValueDataTable"
+						value="#{targetController.allSubValues}"
+						rowKey="#{subjectAttributeValueDataTable.pkSubAttrVal}"
+						selection="#{targetController.selectedSubValue}"
+						selectionMode="single" scrollable="true" scrollHeight="150"
+						resizableColumns="true" scrollWidth="320px">
+
+						<p:ajax event="rowSelect"
+							listener="#{targetController.populateMatchId}" />
+						<p:column style="width:200px">
+							<f:facet name="header">
+								<h:outputText value="Subject Attribute Values" />
+							</f:facet>
+							<h:outputText
+								value="#{subjectAttributeValueDataTable.subAttrValue}" />
+						</p:column>
+					</p:dataTable>
+
+				</p:panelGrid>
+				<p:selectBooleanCheckbox value="#{targetController.mustBePresent}"></p:selectBooleanCheckbox>
+				&nbsp; &nbsp;<h:outputText value="Must Be Present"></h:outputText>
+				<br />
+				<br />
+
+				<p:commandButton styleClass="targetcancelbuttonstyle"
+					action="#{targetController.cancelUpdatedTarget}" value="Cancel">
+
+				</p:commandButton>
+			</p:tab>
+			<p:tab id="sMatchId"
+				title="&nbsp;&nbsp;&nbsp;&nbsp;Match Id&nbsp;&nbsp;&nbsp;&nbsp;">
+				<p:panelGrid columns="1">
+					<p:dataTable id="subjectMatchIds" var="MatchId"
+						value="#{targetController.matchIds}"
+						selection="#{targetController.selectedMatchId}"
+						selectionMode="single" scrollable="true" scrollHeight="150"
+						resizableColumns="true" rowKey="#{MatchId}" scrollWidth="1000">
+
+						<p:ajax event="rowSelect"
+							listener="#{targetController.addSubToSelection}" />
+
+						<p:column style="width:600px">
+							<f:facet name="header">
+								<h:outputText value="Match Ids" />
+							</f:facet>
+							<h:outputText
+								value="#{targetController.getSplittedMatchId(MatchId)}" />
+						</p:column>
+					</p:dataTable>
+
+				</p:panelGrid>
+
+				<p:commandButton styleClass="buttonstyle"
+					action="#{targetController.cancelUpdatedTarget}" value="Cancel">
+				</p:commandButton>
+				<p:commandButton styleClass="buttonstyle"
+					action="#{targetController.saveUpdatedTargetSubject}" value="Save">
+				</p:commandButton>
+			</p:tab>
+			<!-- 
+<p:panelGrid columns="1">
+		<p:dataTable id="selectedSubjectAttributesValues1"
+			var="selectedSubjectAttributesValues"
+			value="#{targetController.selectedSubAttValues}"
+			selection="#{targetController.selectedSubAttValue}" resizableColumns="true"
+			selectionMode="single" scrollable="true" scrollHeight="150"
+			 rowKey="#{selectedSubjectAttributesValues}">
+			<p:column  >
+				<f:facet name="header">
+					<h:outputText value="Selected Subject Attribute Values" />
+				</f:facet>
+
+				<h:outputText value="#{selectedSubjectAttributesValues}" />
+			</p:column>
+		</p:dataTable>
+</p:panelGrid>
+ -->
+
+
+
+
+
+		</p:wizard>
+	</h:form>
+	<p:dialog id="noMatchIdDialogs" header="Warning" icon="ui-icon-alert"
+		widgetVar="noMatchIdDialogs" dynamic="true" hideEffect="explode"
+		showEffect="fade">
+		<h:outputText
+			value="Please Select a Match Id to Add a Subject to the Target" />
+	</p:dialog>
+	<p:dialog id="noValueDialog" header="Warning" icon="ui-icon-alert"
+		widgetVar="noValueDialog" dynamic="true" hideEffect="explode"
+		showEffect="fade">
+		<h:outputText
+			value="Please Add and then select a vlue to move to next Step" />
+	</p:dialog>
+</h:body>
+</html>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

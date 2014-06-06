@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Add Condition</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+</h:head>
+<h:body>
+
+
+	<p:layout id="layout" fullPage="true">
+
+		<p:layoutUnit id="left" position="west" resizable="true" size="400"
+			minSize="400" maxSize="600">
+			<h:form id="form">
+				<fieldset style="margin-left: 20px; margin-right: 20px;">
+					<legend
+						style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Condition</legend>
+					<br />
+					<p:tree styleClass="border" id="conditionTree"
+						value="#{addCondition.root}" var="node" selectionMode="single"
+						selection="#{addCondition.selectedNode}" style="font-size:1.5em;">
+						<p:ajax event="select" listener="#{addCondition.onNodeSelect}"
+							update=":form" />
+
+						<p:treeNode>
+							<h:outputText value="#{node}" />
+						</p:treeNode>
+					</p:tree>
+				</fieldset>
+
+				<br />
+				<br />
+
+
+				<h:panelGrid id="pgrid1" columns="1"
+					style="border-style: hidden !important; margin: 0 auto;">
+					<p:commandButton id="addApply" value="Add Apply"
+						style="height:40px; width:250px" onclick="addApplyDialog.show()"
+						disabled="#{addCondition.applyButton}">
+					</p:commandButton>
+
+					<br />
+
+
+					<p:commandButton id="addDesignator" value="Add Designator"
+						style="height:40px; width:250px"
+						oncomplete="addDesignatorDialog.show()"
+						disabled="#{addCondition.designatorButton}"
+						actionListener="#{addCondition.addListener}" update=":form2">
+					</p:commandButton>
+
+					<br />
+
+					<p:commandButton id="addValue" value="Add Value"
+						style="height:40px; width:250px"
+						oncomplete="addValueDialog.show()"
+						disabled="#{addCondition.valueButton}"
+						actionListener="#{addCondition.addListener}" update=":form3">
+					</p:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit id="center" position="center">
+			<h:form id="form0">
+				<fieldset style="margin-left: 20px; margin-right: 20px;">
+					<legend
+						style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Condition
+						Details</legend>
+					<br /> <br />
+
+					<p:panelGrid id="pgrid" columns="3"
+						style="border-style: hidden !important;">
+						<h:outputLabel
+							style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:50px"
+							value="Condition Description " />
+						<p:inputTextarea rows="5" autoResize="false" style="width:275px"
+							id="description" value="#{addCondition.condDescription}"
+							required="true" requiredMessage="Description cannot be null">
+							<p:ajax event="keyup" update="form0:description_msg" />
+							<f:validator validatorId="stringValidator" />
+						</p:inputTextarea>
+						<p:message autoUpdate="true" id="description_msg"
+							for="description" />
+					</p:panelGrid>
+
+					<pe:tooltip for="description"
+						value="Enter the condition description here."
+						showEffect="slideToggle" hideEvent="click mouseleave"
+						hideEffect="slideToggle" showDelay="0" myPosition="left center"
+						atPosition="right center" />
+
+					<br /> <br /> <br />
+
+
+					<p:commandButton styleClass="buttonstyle" id="cancelCondition"
+						value="Cancel" action="#{addCondition.cancelCondition}"
+						immediate="true" update="form0">
+						<p:resetInput target=" form0" />
+					</p:commandButton>
+
+					<p:commandButton styleClass="buttonstyle" id="saveCondition"
+						value="Save" action="#{addCondition.saveCondition}" update="form0" />
+				</fieldset>
+			</h:form>
+		</p:layoutUnit>
+
+	</p:layout>
+
+
+	<p:dialog modal="true" id="addApplyDialog" header="Add Apply"
+		widgetVar="addApplyDialog">
+
+		<p:ajax event="close" update="form"></p:ajax>
+		<h:form id="form1" style="margin-left:25px">
+
+			<p:panelGrid id="pGrid" columns="3">
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="NO. of Arguments" />
+				<p:selectOneMenu styleClass="conditionapplystyle" id="arguments"
+					value="#{addCondition.selectedNumber}" required="true"
+					requiredMessage="Number of Argument cannot be null">
+					<p:ajax event="change" update="form1:applyFunctionID" />
+					<f:selectItem itemLabel="Select No of arguments" itemValue="" />
+					<f:selectItems value="#{addCondition.arguments}" var="num"
+						itemLabel="#{num}" itemValue="#{num}" />
+				</p:selectOneMenu>
+				<p:message for="arguments" />
+
+				<h:outputLabel value="DataType" />
+				<p:selectOneMenu styleClass="conditionapplystyle" id="type"
+					value="#{addCondition.applyType}" required="true"
+					requiredMessage="Type must be selected">
+					<p:ajax event="change" update="form1:applyFunctionID" />
+					<f:selectItem itemLabel="Select DataType" itemValue="" />
+					<f:selectItems value="#{addCondition.dataType}" var="num"
+						itemLabel="#{type}" itemValue="#{type}" />
+				</p:selectOneMenu>
+				<p:message for="type" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Function ID" />
+				<p:selectOneMenu styleClass="conditionapplystyle"
+					id="applyFunctionID" value="#{addCondition.applyFuncId}"
+					required="true" requiredMessage="Type must be selected">
+					<p:ajax event="change" update="form1:applyFunctionID" />
+					<f:selectItem itemLabel="Select Function" itemValue="" />
+					<f:selectItems value="#{addCondition.functionID}" var="fID"
+						itemLabel="#{fID}" itemValue="#{fID}" />
+				</p:selectOneMenu>
+				<p:message for="applyFunctionID" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Description " />
+				<p:inputTextarea rows="3" autoResize="false" style="width:391px"
+					id="applyDescription" value="#{addCondition.applyDesc}"
+					required="true" requiredMessage="Description cannot be null">
+					<p:ajax event="keyup" update="form1:applyDescription_msg" />
+					<f:validator validatorId="stringValidator" />
+				</p:inputTextarea>
+				<p:message id="applyDescription_msg" for="applyDescription" />
+			</p:panelGrid>
+
+			<br />
+			<br />
+
+
+			<p:commandButton styleClass="buttonstyle" id="cancelApply"
+				value="Cancel " action="#{addCondition.cancelApply}"
+				immediate="true" update="form1">
+				<p:resetInput target=" form1" />
+			</p:commandButton>
+			<p:commandButton styleClass="buttonstyle" id="saveApply" value="Save"
+				action="#{addCondition.saveApply}" update="form1" />
+
+		</h:form>
+	</p:dialog>
+
+
+	<p:dialog modal="true" id="addDesignatorDialog" header="Add Designator"
+		widgetVar="addDesignatorDialog">
+
+		<p:ajax event="close" update="form"></p:ajax>
+		<h:form id="form2" style="margin-left:25px">
+			<p:panelGrid columns="3">
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Designator DataType" />
+				<p:inputText id="valueDescription" value="#{addCondition.valueType}"
+					readonly="true" immediate="true" />
+				<br> </br>
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Designator Type" />
+				<p:selectOneMenu style="width:187px" id="designatorType"
+					value="#{addCondition.attributeType}" required="true"
+					requiredMessage="Type must be selected">
+					<p:ajax event="change" update="form2:designID form2:attriID" />
+					<f:selectItem itemLabel="Select DataType" itemValue="" />
+					<f:selectItems value="#{addCondition.designatorType}" var="num"
+						itemLabel="#{desigType}" itemValue="#{desigType}" />
+				</p:selectOneMenu>
+				<p:message for="designatorType" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Designator ID" />
+				<p:selectOneMenu style="width:187px" id="designID"
+					value="#{addCondition.designatorId}" required="true"
+					requiredMessage="ID must be selected">
+					<p:ajax event="change" update="form2:attriID" />
+					<f:selectItem itemLabel="Select Designator ID" itemValue="" />
+					<f:selectItems value="#{addCondition.designatorAvailableID}"
+						var="numOne" itemLabel="#{desigID}" itemValue="#{desigID}" />
+				</p:selectOneMenu>
+				<p:message for="designID" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Attribute Designator " />
+				<p:selectOneMenu style="width:187px" id="attriID"
+					value="#{addCondition.attributeID}" required="true"
+					requiredMessage="ID must be selected">
+					<p:ajax event="change" />
+					<f:selectItem itemLabel="Select Attribute Designator" itemValue="" />
+					<f:selectItems value="#{addCondition.availableAttributeID}"
+						var="numTwo" itemLabel="#{attrID}" itemValue="#{attrID}" />
+				</p:selectOneMenu>
+				<p:message for="attriID" />
+
+			</p:panelGrid>
+
+			<br />
+			<br />
+
+			<p:commandButton styleClass="buttonstyle" id="cancelDesignator"
+				value="Cancel " action="#{addCondition.cancelDesignator}"
+				immediate="true" update="form2">
+				<p:resetInput target=" form2" />
+			</p:commandButton>
+			<p:commandButton styleClass="buttonstyle" id="saveDesignator"
+				value="Save " action="#{addCondition.saveDesignator}" update="form2" />
+
+		</h:form>
+
+	</p:dialog>
+
+	<p:dialog modal="true" id="addValueDialog" header="Add Value"
+		widgetVar="addValueDialog">
+		<p:ajax event="close" update="form"></p:ajax>
+		<h:form id="form3" style="margin-left:25px">
+
+			<p:panelGrid columns="3">
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Variable DataType" />
+				<p:inputText id="valueDescription" value="#{addCondition.valueType}"
+					readonly="true" immediate="true" />
+				<br> </br>
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Attribute Value" />
+				<p:inputText style="width:180px" id="valueFunctionID"
+					value="#{addCondition.attributeValue}" required="true"
+					requiredMessage="Attribute Value cannot be null">
+					<p:ajax event="keyup" update="form3:valueFunctionID_msg" />
+					<f:attribute name="item" value="#{addCondition.valueType}" />
+					<f:validator validatorId="dataTypeValidator" />
+				</p:inputText>
+				<p:message id="valueFunctionID_msg" for="valueFunctionID" />
+
+
+
+			</p:panelGrid>
+
+			<br />
+			<br />
+
+			<p:commandButton styleClass="buttonstyle" id="cancelValue"
+				value="Cancel " action="#{addCondition.cancelValue}"
+				immediate="true" update="form3">
+				<p:resetInput target=" form3" />
+			</p:commandButton>
+			<p:commandButton styleClass="buttonstyle" id="saveValue"
+				value="Save " action="#{addCondition.saveValue}" update="form3" />
+		</h:form>
+
+
+	</p:dialog>
+</h:body>
+</html>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

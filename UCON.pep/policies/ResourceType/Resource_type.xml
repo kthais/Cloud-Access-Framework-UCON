@@ -1,0 +1,42 @@
+
+<PolicySet PolicySetId="RTPS:Resource-type"
+	PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides" >
+	<Target/>
+
+<PolicySet PolicySetId="RTPS:Resource-type:Database" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides">
+<Target>
+<Resources>
+<Resource>
+          <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:oasis:org:resources:mysql</AttributeValue>
+            <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+          </ResourceMatch>
+        </Resource>
+		
+
+	
+		</Resources>
+</Target>	
+<PolicySetIdReference>RPS:Resource-type:Database:Mysql</PolicySetIdReference>
+</PolicySet>
+<PolicySet PolicySetId="RTPS:Resource-type:File" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides">
+<Target>
+<Resources>
+<Resource>
+          <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:oasis:org:resources:Image.gif</AttributeValue>
+            <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+          </ResourceMatch>
+        </Resource>
+		
+
+	
+		</Resources>
+</Target>	
+<PolicySetIdReference>RPS:Resource-type:File:Image</PolicySetIdReference>
+</PolicySet>
+
+</PolicySet>
+
+<!-- Creating PolicySet -->
+

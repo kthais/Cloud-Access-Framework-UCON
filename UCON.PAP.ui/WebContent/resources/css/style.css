@@ -1,0 +1,204 @@
+
+<!--
+	/******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+
+
+
+.ui-menubar {
+	border: 0 !important;
+	color: black !important;
+	font-weight: bolder !important;
+	float: right !important;
+	margin-top: 0px !important;
+	margin-right: 20px !important;
+	text-align: left !important;
+	font-size: 20px !important;
+}
+
+.centeredMenuBar.ui-menubar {
+	background: none !important;
+}
+
+.ui-menu-list {
+	margin: 0px !important;
+	width: auto !important;
+}
+
+.menuitem {
+	font-size: 16px !important;
+	padding: 0px !important;
+}
+
+table,table tr,table td,table tfoot,table thead {
+	border: none !important;
+	background: none !important;
+}
+
+.tableWidthStyle table,.tableWidthStyle tr,.tableWidthStyle td,.tableWidthStyle tfoot,.tableWidthStyle thead
+	{
+	
+	min-width: 450px !important;
+	max-width: 700px !important;
+	padding-left: 10px !important;
+}
+
+.tableWidthStyleTarget table,.tableWidthStyleTarget tr,.tableWidthStyleTarget td,.tableWidthStyleTarget tfoot,.tableWidthStyleTarget thead
+	{
+	min-width: 160px !important;
+	max-width: 300px !important;
+	padding-left: 10px !important;
+}
+
+.ui-datatable * {
+	border: 0px !important;
+}
+
+.inputTextarea {
+	resize: none !important;
+}
+
+.tableWidthStyleSystem table,.tableWidthStyle tr,.tableWidthStyle td,.tableWidthStyle tfoot,.tableWidthStyle thead
+	{
+	width: 400px !important;
+}
+
+.tableWidthStyleSystem1 table,.tableWidthStyle tr,.tableWidthStyle td,.tableWidthStyle tfoot,.tableWidthStyle thead
+	{
+	width: 270px !important;
+}
+
+.ui-layout-unit {
+	border: 0 !important;
+}
+
+.ui-layout-center {
+	overflow: hidden !important;
+	
+}
+
+.ui-layout-center .ui-layout-unit-content {
+	overflow: hidden !important;
+	
+}
+
+.imager .ui-layout,.imager .ui-layout-doc,.imager .ui-layout-unit,.imager .ui-layout-north,.imager .ui-layout-unit-header,.imager .ui-layout-unit-content
+	{
+	background-image: url(../images/logo.png) !important;
+	background-repeat: no-repeat !important;
+	background-size: 160px 65px !important;
+}
+
+.ui-layout-north {
+	z-index: 40 !important;
+	overflow: visible !important;
+	background: #6699CC !important;
+	width: auto !important;
+	margin: 2px !important;
+	min-width: 900px !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+	margin-left: 200px !important;
+}
+
+.ui-panel {
+	border: 0 !important;
+}
+
+.loader {
+	background-image: url(../images/loading.gif) !important;
+}
+
+.border {
+	border: none !important;
+}
+
+.buttonstyle {
+	float: right !important;
+	width: 80px !important;
+	margin: 5px !important;
+}
+
+.generatebuttonstyle {
+	float: right !important;
+	width: 150px !important;
+	height: 50px !important;
+	margin: 5px !important;
+}
+
+.conditionbuttonstyle {
+	float: right !important;
+	width: 120px !important;
+	margin: 5px !important;
+}
+
+.ui-wizard-nav-next {
+	float: left !important;
+	width: 80px !important;
+	margin-left: 5px !important;
+	margin-top: 2.5px !important;
+}
+
+.targetcancelbuttonstyle {
+	float: left !important;
+	width: 80px !important;
+	margin: 5px !important;
+}
+
+.dialogbuttonstyle {
+	width: 80px !important;
+	margin-top: 10px !important;
+}
+
+.inputtextstyle {
+	width: 142px !important;
+}
+
+.buttontablestyle {
+	width: 160px !important;
+}
+
+.dialoginputstyle {
+	width: 120px !important;
+}
+
+.updatesubjectstyle {
+	width: 140px !important;
+}
+
+.policysetinputstyle {
+	width: 223px !important;
+}
+
+.policysetinputstyle1 {
+	width: 230px !important;
+}
+
+.ruleinputstyle {
+	width: 214px !important;
+}
+
+.ruleinputstyle1 {
+	width: 223px !important;
+}
+
+.conditionapplystyle {
+	width: 400px !important;
+}

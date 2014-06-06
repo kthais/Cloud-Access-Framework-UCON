@@ -1,0 +1,46 @@
+<!-- Creating PolicySet -->
+<PolicySet PolicySetId="UTPS:Resource-type:File:Image-gif:Usage-type:TimeBased" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides" >
+<Target/>
+<PolicySet PolicySetId="UTPS:Resource-type:File:Image-gif:Usage-type:TimeBased:Free" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides" >
+<Description>
+This the required policy Set.
+</Description>
+  <Target>
+   <Resources>
+ <Resource>
+
+		   <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+        <ResourceAttributeDesignator AttributeId="Resource_Usage_Level" DataType="http://www.w3.org/2001/XMLSchema#string" Issuer="admin@users.example.com"/>
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">UL_Attr_Free</AttributeValue>          
+	  </ResourceMatch>
+        </Resource>
+
+
+	
+		</Resources>
+</Target>
+<PolicySetIdReference>URPS:Resource-type:File:Image-gif:Usage-type:TimeBased:Free:Rights</PolicySetIdReference>
+</PolicySet>
+<PolicySet PolicySetId="ULPS:Resource-type:Database:Mysql:Usage-type:TimeBased:Free" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.1:policy-combining-algorithm:ordered-deny-overrides" >
+<Description>
+This the required policy Set.
+</Description>
+ <Target>
+ <Resources>
+ <Resource>
+
+		   <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+        <ResourceAttributeDesignator AttributeId="Resource_Usage_Level" DataType="http://www.w3.org/2001/XMLSchema#string" Issuer="admin@users.example.com"/>
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">UL_Attr_Paid</AttributeValue>          
+	  </ResourceMatch>
+        </Resource>
+
+
+	
+		</Resources>
+
+</Target>
+<PolicySetIdReference>URPS:Resource-type:File:Image-gif:Usage-type:TimeBased:Paid:Rights</PolicySetIdReference>
+</PolicySet>
+
+</PolicySet>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Create Policy</title>
+	<f:facet name="last">
+		<link rel="stylesheet" type="text/css"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	</f:facet>
+</h:head>
+<h:body style="background:#eeeeee">
+	<h:form style="margin-left:25px" id="form">
+		<fieldset>
+			<legend
+				style="font-family: Segoe UI, Verdana, Arial, sans-serif; font-size: 20px; font-weight: bold; background: #eeeeee;">Create
+				Policy</legend>
+			<br />
+
+			<h:panelGrid id="pgrid" columns="3"
+				style="border-style: hidden !important;">
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px "
+					for="name" value="Name: " />
+				<p:inputText styleClass="ruleinputstyle" id="name"
+					value="#{addPolicyController.name}" required="true"
+					requiredMessage="Name cannot be null" label="Name">
+					<f:validator validatorId="stringValidator" />
+				</p:inputText>
+				<p:message for="name" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					for="description" value="Description: " />
+				<p:inputTextarea rows="3" autoResize="false"
+					styleClass="ruleinputstyle" id="description"
+					value="#{addPolicyController.description}" required="true"
+					requiredMessage="Description cannot be null" label="Description">
+					<p:ajax event="mouseout" render="infoIcon" />
+				</p:inputTextarea>
+				<p:message for="description" />
+
+				<h:outputLabel
+					style="font-family:Segoe UI, Verdana, Arial, sans-serif; margin-right:25px"
+					value="Rule Combining Algorithm " />
+
+				<p:selectOneMenu styleClass="policysetinputstyle" id="onemanu"
+					value="#{addPolicyController.appliedAlgo}" required="true"
+					requiredMessage="Select Rule Combining Algorithm">
+					<f:ajax event="change" execute="@this" />
+					<f:selectItem itemLabel="Select Rule Combining Algorithm "
+						itemValue="" />
+					<f:selectItems value="#{addPolicyController.algorithmList}"
+						var="cat" itemLabel="#{cat}" itemValue="#{cat}" />
+				</p:selectOneMenu>
+				<p:message for="onemanu" />
+
+			</h:panelGrid>
+			<pe:tooltip for="name" value="Enter the policy id here."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+			<pe:tooltip for="description"
+				value="Enter the policy description here." showEffect="slideToggle"
+				hideEvent="click mouseleave" hideEffect="slideToggle" showDelay="0"
+				myPosition="left center" atPosition="right center" />
+
+			<pe:tooltip for="onemanu"
+				value="Select the rule combining algorithm for policy here."
+				showEffect="slideToggle" hideEvent="click mouseleave"
+				hideEffect="slideToggle" showDelay="0" myPosition="left center"
+				atPosition="right center" />
+
+
+
+
+			<br />
+			<h:panelGrid columns="4" style="border-style: hidden !important;">
+
+				<p:dataTable id="targetDataTable" var="targetDataTable"
+					value="#{addPolicyController.allTarget}"
+					rowKey="#{targetDataTable.pkTarget}"
+					selection="#{addPolicyController.appliedTarget}"
+					selectionMode="single" scrollable="true" scrollHeight="150"
+					resizableColumns="true">
+					<p:ajax event="rowSelect"></p:ajax>
+					<p:column style="width:200px">
+						<f:facet name="header">
+							<h:outputText value="Available Target" />
+						</f:facet>
+						<h:outputText value="#{targetDataTable.description}" />
+					</p:column>
+				</p:dataTable>
+
+				<pe:tooltip for="targetDataTable"
+					value="These are the targets for the policy."
+					showEffect="slideToggle" hideEvent="click mouseleave"
+					hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+					atPosition="top center" />
+
+
+				<p:dataTable id="ruleDataTable" var="ruleDataTable"
+					value="#{addPolicyController.allRule}"
+					rowKey="#{ruleDataTable.pkRule}"
+					selection="#{addPolicyController.ruleList}" rowSelectionMode="add"
+					scrollable="true" scrollHeight="150" resizableColumns="true">
+					<p:ajax event="rowSelect"></p:ajax>
+					<p:column selectionMode="multiple"
+						style="text-align:center; width:5%" />
+
+					<p:column style="width:200px">
+						<f:facet name="header">
+							<h:outputText value="Available Rules" />
+						</f:facet>
+						<h:outputText value="#{ruleDataTable.ruleId}" />
+					</p:column>
+				</p:dataTable>
+
+				<pe:tooltip for="ruleDataTable"
+					value="These are the rules for the policy."
+					showEffect="slideToggle" hideEvent="click mouseleave"
+					hideEffect="slideToggle" showDelay="0" myPosition="bottom center"
+					atPosition="top center" />
+
+
+
+				<br />
+			</h:panelGrid>
+			<p:spacer width="825" height="50" />
+
+			<p:column>
+				<p:commandButton styleClass="buttonstyle" id="cancelButton"
+					value="Cancel " action="#{addPolicyController.cancelAddPolicy}"
+					immediate="true" update="form" />
+			</p:column>
+
+			<p:column>
+
+				<p:commandButton styleClass="buttonstyle" id="saveButton"
+					value="Save "
+					update=":form:ruleDataTable :form:targetDataTable form"
+					action="#{addPolicyController.saveAddPolicy}" />
+			</p:column>
+
+
+			<p:defaultCommand target="saveButton"></p:defaultCommand>
+
+		</fieldset>
+
+	</h:form>
+</h:body>
+</html>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

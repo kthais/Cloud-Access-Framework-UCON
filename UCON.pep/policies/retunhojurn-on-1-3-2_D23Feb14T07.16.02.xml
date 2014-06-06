@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyId="retunhojurn:on:1:3:2" Version="2.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>ddd</Description>
+    <Target>
+         <Subjects>
+        <Subject>
+          <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">12443@yahoo.com</AttributeValue>
+            <SubjectAttributeDesignator AttributeId="email-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          </SubjectMatch>
+        </Subject>
+      </Subjects>
+        <Resources>
+        <Resource>
+          <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">urn:oasis:org:resources:mysql</AttributeValue>
+            <ResourceAttributeDesignator AttributeId="mysql" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          </ResourceMatch>
+        </Resource>
+      </Resources>
+      <Actions>
+        <Action>
+          <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">access</AttributeValue>
+            <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          </ActionMatch>
+        </Action>
+      </Actions>
+         </Target>
+    <Rule RuleId="retunhojurn:on:1:3:2" Effect="Permit"/>
+    <Obligations>
+        <Obligation ObligationId="urn:xacml:ucon:preUpdate" FulfillOn="Permit">
+            <AttributeAssignment  AttributeId="subjAttrId1" DataType="http://www.w3.org/2001/XMLSchema#string">2</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:on" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="request_interval" DataType="http://www.w3.org/2001/XMLSchema#string">22</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:onGoingUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="update_subjAttrId0" DataType="http://www.w3.org/2001/XMLSchema#string">22</AttributeAssignment>
+        </Obligation>
+        <Obligation ObligationId="urn:xacml:ucon:postUpdate" FulfillOn="Permit">
+            <AttributeAssignment AttributeId="envAttrId2" DataType="http://www.w3.org/2001/XMLSchema#string">1</AttributeAssignment>
+        </Obligation>
+    </Obligations>
+</Policy>

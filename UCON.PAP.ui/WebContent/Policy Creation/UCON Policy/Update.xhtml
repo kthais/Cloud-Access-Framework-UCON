@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:head>
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=ISO-8859-1" />
+		<title>UCON Update</title>
+		<f:facet name="last">
+			<link rel="stylesheet" type="text/css"
+				href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+		</f:facet>
+	</h:head>
+
+	<h:body style="background:#eeeeee">
+	<h:form id="form">
+		<fieldset>
+			<legend>
+				<p:selectBooleanCheckbox id="PreUpdate"
+					value="#{uconPolicyWizardController.preUpdateCheckBox}">
+					<p:ajax update=":form:PreUpdateDataTable :form:AddAttrInDataTable :form:AttributeIds :form:PreUpdateOutputLabel :form:PreUpdateInputTextValue :form:PreUpdateOutputLabelValue"/>
+				</p:selectBooleanCheckbox><label for="PreUpdate"> PreUpdate</label>
+			</legend>
+			<p:panelGrid style="border-style: hidden !important;">
+				<p:row>
+					
+					<p:column><br/><br/><h:outputLabel id = "PreUpdateOutputLabel" value="Attribute ID" disabled="#{!uconPolicyWizardController.preUpdateCheckBox}" /></p:column>
+					<p:column><br/><br/><p:selectOneMenu styleClass="policysetinputstyle"
+					id="AttributeIds" disabled="#{!uconPolicyWizardController.preUpdateCheckBox}" 
+					value="#{uconPolicyWizardController.preAttrId}" required="true"
+					requiredMessage="Select Attribute ID">
+					<f:ajax event="change" execute="@this" />
+					<f:selectItem itemLabel="Select Attribute ID" itemValue="" />
+					<f:selectItems value="#{uconPolicyWizardController.preAttrIds}"
+						var="attrId" itemLabel="#{attrId}" itemValue="#{attrId}" />
+				</p:selectOneMenu>
+					</p:column>
+					<p:column rowspan="3">
+						<p:dataTable  id = "PreUpdateDataTable"
+									var = "PreUpdateDataTableVar"
+									value="#{uconPolicyWizardController.preValues}"
+									rowKey="#{PreUpdateDataTableVar}"
+									selection = "{uconPolicyWizardController.preValueSelection}"
+									selectionMode="single" scrollable="true" scrollHeight="150"
+									resizableColumns="true"
+									disabledSelection="#{!uconPolicyWizardController.preUpdateCheckBox}" >
+							
+							<p:column headerText = "Attribute ID" >#{PreUpdateDataTableVar.preAttrId}</p:column>
+							<p:column headerText = "Attribute Update Value" >#{PreUpdateDataTableVar.preValue}</p:column>
+						</p:dataTable>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column><h:outputLabel id = "PreUpdateOutputLabelValue" value="Attribute Value" disabled="#{!uconPolicyWizardController.preUpdateCheckBox}" /></p:column>
+					<p:column><p:inputText id="PreUpdateInputTextValue" size="28"
+						value="#{uconPolicyWizardController.preValue}"
+						disabled="#{!uconPolicyWizardController.preUpdateCheckBox}" required="true"
+						requiredMessage="Enter Attribute Value" /></p:column>
+					
+				</p:row>
+				<p:row>
+					<p:column><h:outputLabel /></p:column>
+					<p:column><p:commandButton id="AddAttrInDataTable" style = "float: right" 
+					disabled="#{!uconPolicyWizardController.preUpdateCheckBox}" 
+					update=":form:PreUpdateDataTable :form:AddAttrInDataTable :form:AttributeIds :form:PreUpdateOutputLabel :form:PreUpdateInputTextValue :form:PreUpdateOutputLabelValue"
+					actionListener= "#{uconPolicyWizardController.preUpdateActionListener}" value="Update"/>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</fieldset>
+
+		<fieldset>
+			<legend>
+				<input id="OnGoingUpdate" name="OnGoingUpdate" type="checkbox" /><label
+					for="OnGoingUpdate">OnGoingUpdate</label>
+			</legend>
+
+		</fieldset>
+
+		<fieldset>
+			<legend>
+				<input id="PostUpdate" name="PostUpdate" type="checkbox" /><label
+					for="PostUpdate">PostUpdate</label>
+			</legend>
+
+		</fieldset>
+		</h:form>
+	</h:body>
+
+</ui:composition>
+<!-- /******************************************************************************
+ * Project:    Extensible Access Control Framework for Cloud based Applications.
+ *                     http://ais.seecs.nust.edu.pk/project/ 
+ * Developed by: KTH- Applied Information Security Lab (AIS), 
+ *                       NUST-SEECS, H-12 Campus, 
+ *                       Islamabad, Pakistan. 
+ *                       www.ais.seecs.nust.edu.pk
+ * Funded by: National ICT R&D Fund, Ministry of Information Technology & Telecom,
+ *                  http://www.ictrdf.org.pk/
+ * Copyright (c) 2013-2015 All Rights Reserved, AIS-SEECS NUST & National ICT R&D Fund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy and/or modify the Software, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*****************************************************************************/
+ -->

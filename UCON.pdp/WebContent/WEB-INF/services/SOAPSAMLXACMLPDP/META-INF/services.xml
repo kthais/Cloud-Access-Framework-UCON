@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) -->
+<serviceGroup>
+    <service name="SOAPSAMLXACMLPDP">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="pdp.identity_federation.picketlink.SOAPSAMLXACMLPDPMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">pdp.identity_federation.picketlink.SOAPSAMLXACMLPDPSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="Authorize" mep="http://www.w3.org/ns/wsdl/in-out" namespace="urn:picketlink:identity-federation:pdp">
+            <actionMapping>http://schemas.xmlsoap.org/ws/2005/02/trust/RST/Issue</actionMapping>
+            <outputActionMapping>http://schemas.xmlsoap.org/ws/2005/02/trust/RSTR/Issue</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>
